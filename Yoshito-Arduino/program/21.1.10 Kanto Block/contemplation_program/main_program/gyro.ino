@@ -1,4 +1,19 @@
-int attitude(int gyro)
+int F_gyro_serial()
+{
+  int gyro_serial;
+
+  if (Serial2.available() > 0)
+  {
+    gyrp_serial = Serial2.read() * 2;
+  }
+  else
+  {
+    gyro_serial = 0;
+  }
+  return gyro_serial;
+}
+
+int F_attitude_control(int gyro)
 {
   int gyro_attitude;
   if (0 <= gyro & gyro <= 10 | 350 <= gyro & gyro <= 360)

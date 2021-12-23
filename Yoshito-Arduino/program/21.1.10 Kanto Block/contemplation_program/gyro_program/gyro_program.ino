@@ -1,11 +1,3 @@
-#include <I2Cdev.h>
-#include <MPU6050.h>
-#include <Wire.h>
-MPU6050 accelgyro;
-
-int16_t ax, ay, az;
-int16_t gx, gy, gz;
-
 const int LED_DONE = 2;
 const int SWITCH_LED = 3;
 const int GYRO_SWITCH = 4;
@@ -18,7 +10,7 @@ int switch_count;
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
   pinMode(LED_DONE, OUTPUT);
   pinMode(SWITCH_LED, OUTPUT);
   pinMode(GYRO_SWITCH, INPUT);

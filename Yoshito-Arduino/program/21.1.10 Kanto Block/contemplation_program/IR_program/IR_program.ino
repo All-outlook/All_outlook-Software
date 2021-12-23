@@ -16,7 +16,6 @@ int degree;
 int more;
 int best_duration;
 int best;
-int knob;
 
 void setup() {
   SPCR |= bit(SPE);
@@ -108,9 +107,7 @@ void loop() {
   for(int id = 0; id <= 4; id++){
     range[id] = 0;
   }
-}
-
-ISR(SPI_STC_vect) {
-  knob = SPDR;
-  SPDR = degree / 2;
+  int half_degree = degree / 2;
+  Serial.print(half_degree);
+  Serial.print('&');
 }
