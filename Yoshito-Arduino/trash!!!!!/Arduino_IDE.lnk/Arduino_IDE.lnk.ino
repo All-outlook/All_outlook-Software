@@ -1,57 +1,88 @@
-int Do = 261;
-int Re = 294;
-int Mi = 329;
-int Fa = 349;
-int So = 392;
-int La = 440;
-int Si = 493;
-int Do2 = 523;
-int Re2 = 587;
-int Mi2 = 659;
-int Fa2 = 698;
-int So2 = 784;
-int La2 = 880;
-int Si2 = 988;
-int Do3 = 1047;
-int Re3 = 1175;
-int Mi3 = 1319;
-int Fa3 = 1397;
-int So3 = 1568;
+#include <Arduino.h>
+#include <Wire.h>
 
-int oneup[6] = { Mi2, So2, Mi3, Do3, Re3, So3};
-int mario[13] = {Mi2, Mi2, 0, Mi2, 0, Do2, Mi2, 0, So2, 0, 0, 0, So};
-int fire[3] = {So, So2, So3};
-int dead[9] = {Si, Fa2, 0, Fa2, Fa2, Mi2, 0, Re2, Do2};
-int damage[18] = {La2, Mi, La, 0, 0, 0, La2, Mi, La, 0, 0, 0, La2, Mi, La, 0, 0, 0};
-int star[32] = {Do2, 0, Do2, 0, Do2, 0, Re, Do2, 0, Do2, 0, Re, Do2, 0, Do2, 0,
-                Si , 0, Si, 0, Si, 0, Do, Si, 0, Si, 0, Do, Si, 0, Si, 0
-               };
+// 1 second = 1,000 millis = 1,000,000 micros
+// goal_time(n), n = millis
+const int LED_PIN[] = {30, 31, 32, 33};
+const int TOGGLE_PIN = 41;
+int id;
+int toggle_value;
+int gyro_degree;
+int gyro_speed;
+int IR_degree;
+int wrap_degree;
+int line_digits;
+int line_degree;
+int either_degree;
+int either_speed[4];
+char MT_number[] = {'A', 'B', 'C', 'D'};
+int MT_speed[4];
+int MT_rotate[4];
+int pre_MT_rotate[4];
+int MT_rest[4];
+unsigned long MT_rest_time[4];
+unsigned long MT_stop_time[4];
+int kicker_value;
 
 void setup() {
+  pinMode(TOGGLE_PIN, INPUT);
+  for (id = 0; id <= 3; id++) {
+    pinMode(LED_PIN[id], OUTPUT);
+  }
 }
 
 void loop() {
-  for (int i = 0; i < 13; i++) {
-    tone(35, mario[i], 50);
-    delay(115);
+  F_time_read();
+
+  toggle_value = digitalRead(TOGGLE_PIN);
+  if (toggle_value == 0)
+  {
+    for (id = 0; id <= 3; id++)
+    {
+      digitalWrite(LED_PIN[id], LOW);
+    }
   }
 
-  for (int i = 0; i < 32; i++) {
-    tone(35, star[i], 100);
-    delay(100);
-  }
+    gyro_degree = 0;
+    Serial.print('g');
+    Serial.print(gyro_degree);
+    Serial.print(",");
+    gyro_speed = 0;
+    Serial.print('a');
+    Serial.print(gyro_speed);
+    Serial.print(",");
 
-  for (int i = 0; i < 3; i++) {
-    tone(35, Si2, 100);
-    delay(100);
-    tone(35, Mi3, 250);
-    delay(250);
-  }
+    IR_degree = 0;
+    Serial.print('i');
+    Serial.print(IR_degree);
+    Serial.print(",");
+    wrap_degree = 0;
+    Serial.print('w');
+    Serial.print(wrap_degree);
+    Serial.print(",");
 
+    line_digits = 0;
+    Serial.print('l');
+    Serial.print(line_digits);
+    Serial.print(",");
+    line_degree = 0;
+    Serial.print('s');
+    Serial.print(line_degree);
+    Serial.print(",");
 
-  for (int i = 0; i < 6; i++) {
-    tone(35, oneup[i], 100);
-    delay(125);
-  }
-  delay(1000);
+    if (line_degree != 0 & IR_degree != 0 | line_degree != 0 & IR_degree == 0)
+    {
+    either_degree = line_degree;
+    }
+    else if (line_degree == 0 & IR_degree != 0)
+    {
+    either_degree = IR_degree;
+    }
+    else if (line_degree == 0 & IR_degree == 0)
+    {
+    either_degree = 0;
+    }
+    Serial.print("e");
+    Serial.print(either_degree);
+    Serial.print(",");
 }
