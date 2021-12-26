@@ -1,57 +1,49 @@
-//Mux control pins
-int s0 = 8;
-int s1 = 9;
-int s2 = 10;
-int s3 = 11;
-//Mux in "SIG" pin
-int SIG_pin = 0;
+#include <Adafruit_NeoPixel.h>
+const int A_PIN = 2;
+const int B_PIN = 3;
+const int C_PIN = 4;
+const int AMP_PIN[] = {A0, A1, A2, A3}; //AMP = Analog Multi Plexor
 
-int muxChannel[16][4] = {
-  {0, 0, 0, 0}, //channel 0
-  {1, 0, 0, 0}, //channel 1
-  {0, 1, 0, 0}, //channel 2
-  {1, 1, 0, 0}, //channel 3
-  {0, 0, 1, 0}, //channel 4
-  {1, 0, 1, 0}, //channel 5
-  {0, 1, 1, 0}, //channel 6
-  {1, 1, 1, 0}, //channel 7
-  {0, 0, 0, 1}, //channel 8
-};
+const int LED_PIN = 5;
+const int C_LED_count = 32;
+Adafruit_NeoPixel pixels(C_LED_count, LED_PIN, NEO_GRB + NEO_KHZ800);
+
+int id;
+int line_value[32];
+const int C_line_threshold = 350;
+int line_digits[32];
 
 void setup() {
-  pinMode(s0, OUTPUT);
-  pinMode(s1, OUTPUT);
-  pinMode(s2, OUTPUT);
-  pinMode(s3, OUTPUT);
-
-  digitalWrite(s0, LOW);
-  digitalWrite(s1, LOW);
-  digitalWrite(s2, LOW);
-  digitalWrite(s3, LOW);
-
-  Serial.begin(9600);
+  F_time_read();
+  Serial.begin(115200);
+  F_AMP_setup();
+  F_LED_setup(60, 60, 60);
 }
 
 void loop() {
-  int ch_count = 4;
-  for (int i = 0; i < ch_count; i ++) {
-    Serial.print("Value at channel ");
-    Serial.print(i);
-    Serial.print("is : ");
-    Serial.println(readMux(i));
-    delay(1000);
-  }
-}
 
-
-int readMux(int channel) {
-  int controlPin[] = {s0, s1, s2, s3};
-  //loop through the 4 sig
-  for (int i = 0; i < 4; i ++) {
-    digitalWrite(controlPin[i], muxChannel[channel][i]);
+  F_LED_loop(128, 1, 1);
+  for (int id = 0; id <= 7; id++) {
+    F_line_choice(id);
+    line_value[id] = analogRead(AMP_PIN[0]); //0-7
+    line_value[id + 8] = analogRead(AMP_PIN[1]); //8-15
+    line_value[id + 16] = analogRead(AMP_PIN[2]); //15-23
+    line_value[id + 24] = analogRead(AMP_PIN[3]); //24-31
   }
-  //read the value at the SIG pin
-  int val = analogRead(SIG_pin);
-  //return the value
-  return val;
+  for (id = 0; id <= 31; id++) {
+    Serial.print(line_value[id]);
+    Serial.print(",");
+  }
+
+  for (id = 0; id <= 31; id++) {
+    if (line_value[id] >= C_line_threshold) {
+      line_digits[id] = 1;
+    } else {
+      line_digits[id] = 0;
+    }
+    //        Serial.print(line_digits[id]);
+    //        Serial.print(",");
+  }
+
+  Serial.println();
 }
