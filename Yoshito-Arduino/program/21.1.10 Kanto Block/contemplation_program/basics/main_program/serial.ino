@@ -1,14 +1,3 @@
-const int MT_RX[] = {42, 43, 44, 45};
-const int MT_TX[] = {53, 54, 59, 58};
-const int IR_RX = 66;
-const int LINE_RX = 68;
-const int LINE_TX = 49;
-SoftwareSerialParity MT0_Serial(MT_RX[0], MT_TX[0]); // rx,tx
-SoftwareSerialParity MT1_Serial(MT_RX[1], MT_TX[1]); // rx,tx
-SoftwareSerialParity MT2_Serial(MT_RX[2], MT_TX[2]); // rx,tx
-SoftwareSerialParity MT3_Serial(MT_RX[3], MT_TX[3]); // rx,tx
-SoftwareSerialParity line_Serial(LINE_RX, LINE_TX);  // rx,tx
-#define SERIAL_8E1 0x26
 
 void F_serial_setup()
 {

@@ -1,35 +1,38 @@
-int gyro_serial;
-int F_gyro_serial()
+const int IR_RX = 66;
+
+int IR_serial;
+int IR_wrap;
+
+int F_IR_serial()
 {
-  if (Serial2.available() > 0)
+  if (Serial3.available() > 0)
   {
-    gyro_serial = Serial2.read() * 2;
+    IR_serial = Serial3.read() * 2;
   }
   else
   {
-    gyro_serial = 0;
+    IR_serial = 0;
   }
-  return gyro_serial;
+  return IR_serial;
 }
 
-int F_attitude_control(int gyro)
+int F_wrap_degree(int IR)
 {
-  int gyro_attitude;
-  if (0 <= gyro & gyro <= 10 | 350 <= gyro & gyro <= 360)
+  if (10 <= IR & IR < 180)
   {
-    gyro_attitude = 0;
+    IR_wrap = IR + 50;
   }
-  else if (5 < gyro & gyro <= 180)
+  else if (180 <= IR + IR < 350)
   {
-    gyro_attitude = map(gyro, 5, 180, 100, 200);
+    IR_wrap = IR - 50;
   }
-  else if (180 < gyro & gyro <= 355)
+  else if (0 < IR & IR < 10 | 350 <= IR & IR <= 360)
   {
-    gyro_attitude = map(gyro, 180, 355, -200, -100);
+    IR_wrap = 360;
   }
   else
   {
-    gyro_attitude = 0;
+    IR_wrap = 0;
   }
-  return gyro_attitude;
+  return IR_wrap;
 }

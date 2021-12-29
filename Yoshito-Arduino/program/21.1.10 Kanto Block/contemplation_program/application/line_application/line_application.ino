@@ -1,8 +1,10 @@
+#include <SoftwareSerialParity.h>
 #include <Adafruit_NeoPixel.h>
 const int A_PIN = 2;
 const int B_PIN = 3;
 const int C_PIN = 4;
 const int AMP_PIN[] = {A0, A1, A2, A3}; //AMP = Analog Multi Plexor
+SoftwareSerialParity LINESerial(7, 10); //rx,tx
 
 const int LED_PIN = 5;
 const int C_LED_count = 32;
@@ -10,7 +12,7 @@ Adafruit_NeoPixel pixels(C_LED_count, LED_PIN, NEO_GRB + NEO_KHZ800);
 
 int id;
 int line_value[32];
-const int C_line_threshold = 350;
+const int C_line_threshold = 600;
 int line_digits[32];
 int line_min[32];
 int line_max[32];
@@ -32,6 +34,8 @@ int degree;
 void setup() {
   F_time_read();
   Serial.begin(115200);
+  LINESerial.begin(38400, ODD);
+  pinMode(10, OUTPUT);
   F_AMP_setup();
   F_LED_setup(60, 60, 60);
 }
@@ -50,10 +54,12 @@ void loop() {
     line_value[id + 16] = analogRead(AMP_PIN[2]); //15-23
     line_value[id + 24] = analogRead(AMP_PIN[3]); //24-31
   }
-  for (id = 0; id <= 31; id++) {
-    Serial.print(line_value[id]);
-    Serial.print(",");
-  }
+  line_value[20] = 0; //This is incompetence!!!!
+
+  //  for (id = 0; id <= 31; id++) { //Please comment here as well.
+  //        Serial.print(line_value[id]);
+  //        Serial.print(",");
+  //  } //Please comment here as well.
 
   for (id = 0; id <= 31; id++) {
     if (line_value[id] >= C_line_threshold) {
@@ -61,8 +67,8 @@ void loop() {
     } else {
       line_digits[id] = 0;
     }
-    //        Serial.print(line_digits[id]);
-    //        Serial.print(",");
+    //    Serial.print(line_digits[id]);
+    //    Serial.print(",");
   }
 
   for (id = 0; id <= 31; id++) {
@@ -81,9 +87,10 @@ void loop() {
     smallest = min(smallest, line_min[id]);
     biggest = max(biggest, line_max[id]);
   }
-  //  Serial.print(smallest);
-  //  Serial,print(",");
-  //  Serial.print(biggest);
+  //    Serial.print(smallest);
+  //    Serial.print(",");
+  //    Serial.print(biggest);
+  //    Serial.print(",");
 
   float line_value;
   if (biggest - smallest > 16) {
@@ -96,14 +103,14 @@ void loop() {
   } else if (biggest == 0 & smallest == 31) {
     line_value = -1;
   }
-  line_degree = round(line_value * 11.25);
+  line_degree = abs(round(line_value * 11.25));
 
   if (line_degree == 0) {
     line_degree = 360;
-  } else if (line_degree == -1) {
+  } else if (line_degree == 11) {
     line_degree = 0;
   }
-  //Serial.print(line_degree);
+  // Serial.print(line_degree);
   current_degree = line_degree;
 
   if (abs(current_degree - previous_degree) >= 165 & current_degree != 0 & previous_degree != 0) {
@@ -143,7 +150,12 @@ void loop() {
     degree = 0;
   }
 
+  //Serial.print(pre_re_degree);
   Serial.print(degree);
+
+  LINESerial.write(degree / 2);
+  LINESerial.flush();
+
   previous_degree = current_degree;
   Serial.println();
 }

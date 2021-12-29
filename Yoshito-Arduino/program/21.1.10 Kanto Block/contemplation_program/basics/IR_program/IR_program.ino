@@ -119,11 +119,10 @@ void loop()
 
   for (int id = 0; id <= 4; id++)
   {
-    Serial.print(range[id]);
-    Serial.print(",");
+//    Serial.print(range[id]);
+//    Serial.print(",");
   }
   Serial.print(degree);
-  Serial.print("°");
   Serial.println();
 
   for (int id = 0; id <= 4; id++)

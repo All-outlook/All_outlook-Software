@@ -19,10 +19,10 @@ void setup() {
   //  pinMode(MISO, OUTPUT);
   // SPI.attachInterrupt();
   // Serial.begin(38400);
-  //  for (int id = 0; id <= 2; id++) {
-  //    pinMode(LED_PIN[id], OUTPUT);
-  //    digitalWrite(LED_PIN[id], HIGH);
-  //  }
+    for (int id = 0; id <= 2; id++) {
+      pinMode(LED_PIN[id], OUTPUT);
+      digitalWrite(LED_PIN[id], HIGH);
+    }
   for (int id = 0; id <= 7; id++) {
     pinMode(LED_CIRCLE1[id], OUTPUT);
     pinMode(LED_CIRCLE2[id], OUTPUT);

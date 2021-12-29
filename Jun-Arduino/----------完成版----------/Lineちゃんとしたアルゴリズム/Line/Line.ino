@@ -8,7 +8,7 @@ const int LED_PIN = 5;
 const int LED_NUM = 32;
 const int READ_PIN[] = {A0, A1, A2, A3};
 
-const int C_BORDER_WHITE_LINE = 250;
+const int C_BORDER_WHITE_LINE = 700;
 
 
 int line_value[32];

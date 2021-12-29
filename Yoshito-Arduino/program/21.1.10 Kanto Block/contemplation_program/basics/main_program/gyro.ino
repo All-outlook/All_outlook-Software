@@ -1,3 +1,5 @@
+#define SERIAL_8E1 0x26
+
 int gyro_serial;
 int F_gyro_serial()
 {

@@ -40,7 +40,7 @@ void loop() {
     line_value[id + 24] = analogRead(READ_PIN[3]);
   }
 
-  Serial.print("Moto_value       : ");
+//  Serial.print("Moto_value       : ");
   for (int id = 0; id <= 31; id++) {
     Serial.print(line_value[id]);
     Serial.print(":");

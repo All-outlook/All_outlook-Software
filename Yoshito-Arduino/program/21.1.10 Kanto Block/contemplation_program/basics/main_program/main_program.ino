@@ -1,12 +1,11 @@
 #include <Arduino.h>
 #include <Wire.h>
+#include <SoftwareSerialParity.h>
+#include <Adafruit_NeoPixel.h>
 
 // 1 second = 1,000 millis = 1,000,000 micros
 // goal_time(n), n = millis
-const int LED_PIN[] = {30, 31, 32, 33};
-const int TOGGLE_PIN = 41;
 int id;
-int toggle_value;
 int gyro_degree;
 int gyro_speed;
 int IR_degree;
@@ -26,7 +25,8 @@ int kicker_value;
 
 void setup()
 {
-  pinMode(TOGGLE_PIN, INPUT);
+  F_switch_setup();
+  F_LED_setuo();
   F_serial_setup();
   F_flame_setup();
   F_kicker_setup();
@@ -38,13 +38,9 @@ void loop()
 {
   F_time_read();
 
-  toggle_value = digitalRead(TOGGLE_PIN);
-  if (toggle_value == 0)
+  if (F_switch_value() == 0)
   {
-    for (id = 0; id <= 3; id++)
-    {
-      digitalWrite(LED_PIN[id], LOW);
-    }
+    F_LED_turnon() ;
 
     gyro_degree = F_gyro_serial();
     Serial.print('g');
@@ -205,11 +201,11 @@ void loop()
   else
   {
     Serial.print("OFF");
-    for (id = 0; id <= 3; id++)
+    for (id = 0; id <= 3; id++);
     {
-      digitalWrite(LED_PIN[id], HIGH);
-      F_speed_send(id, 30)
+      F_speed_send(id, 30);
     }
+    F_LED_turnon();
   }
   for (id = 0; id <= 3; id++)
   {

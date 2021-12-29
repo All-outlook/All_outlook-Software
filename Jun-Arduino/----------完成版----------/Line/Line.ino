@@ -1,7 +1,7 @@
 //#include <SPI.h>
 #include <SoftwareSerialParity.h>
 
-#define C_BORDER_WHITE_LINE 230
+#define C_BORDER_WHITE_LINE 700
 //スーパーチーム70
 //練習コート 250
 //試合コート 300
@@ -45,6 +45,7 @@ void loop() {
     line_value[id + 16] = analogRead(READ_PIN[2]);
     line_value[id + 24] = analogRead(READ_PIN[3]);
   }
+    line_value[28] = 0;
 
   //もとの値
   int best_value = 0;

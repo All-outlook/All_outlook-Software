@@ -35,10 +35,11 @@ void loop() {
 
     int IR_DEGDEG = F_IR_wrap_around(F_IR_read());
     int LINE_DEGDEG = F_LINE_read();
+    //int LINE_DEGDEG = 0;
     int IRLINE;
     Serial.println(IR_DEGDEG);
-//    Serial.print(':');
-//    Serial.println(LINE_DEGDEG);
+    //    Serial.print(':');
+    //    Serial.println(LINE_DEGDEG);
     if (LINE_DEGDEG != 0) {
       IRLINE = LINE_DEGDEG;
     } else {
@@ -46,7 +47,7 @@ void loop() {
     }
 
 
-//スーパーーチーム用
+    //スーパーーチーム用
 
     //回転させるよ************************************
     if (IRLINE == 2000) {
@@ -67,10 +68,6 @@ void loop() {
   }
   F_fled_finish();
 }
-
-
-
-
 
 
 
