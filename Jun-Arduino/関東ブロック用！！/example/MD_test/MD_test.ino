@@ -37,6 +37,6 @@ void loop() {
   analogWrite(MOTOR_C, 0);
   analogWrite(MOTOR_D, 254);
   digitalWrite(LED, LOW);
-  delay(600);
+  delay(1800);
 
 }

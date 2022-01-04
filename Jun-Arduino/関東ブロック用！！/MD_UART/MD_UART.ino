@@ -1,8 +1,5 @@
-#include <SoftwareSerialParity.h>
-
-#include <SPI.h>
-//#include <SoftwareSerial.h>
-SoftwareSerialParity mySerial(10, 7);//rx,tx
+#include <SoftwareSerial.h>
+SoftwareSerial mySerial(8, 18);//rx,tx
 
 const int LED_PIN[] = {2, 3, 4};
 const int MT_R_PIN = 5;
@@ -15,14 +12,6 @@ int recieve_value;
 
 
 void setup() {
-  //Serial.begin(38400);
-  SPCR |= bit(SPE);
-  pinMode(MISO, OUTPUT);
-
-  SPI.attachInterrupt();
-  pinMode(MISO, INPUT);
-  pinMode(MOSI, INPUT);
-  pinMode(SCK, INPUT);
 
   pinMode(MT_R_PIN, OUTPUT);
   pinMode(MT_L_PIN, OUTPUT);
@@ -34,9 +23,9 @@ void setup() {
   }
 
   //ソフトシリアル
-  pinMode(10, INPUT);
-  pinMode(7, OUTPUT);
-  mySerial.begin(38400, ODD);
+  pinMode(8, INPUT);
+  pinMode(18, OUTPUT);
+  mySerial.begin(38400);
 
 }
 
@@ -66,17 +55,17 @@ void loop() {
 
 
 
-  if (digitalRead(DIP_SWITCH[0]) == HIGH) {
-    recieve_value = 100;
-  } else if (digitalRead(DIP_SWITCH[1]) == HIGH) {
-    recieve_value = 110;
-  } else if (digitalRead(DIP_SWITCH[2] ) == HIGH) {
-    recieve_value = 120;
-  } else if (digitalRead(DIP_SWITCH[3]) == HIGH) {
-    recieve_value = 130;
-  } else {
-    recieve_value = 200;
-  }
+  //  if (digitalRead(DIP_SWITCH[0]) == HIGH) {
+  //    recieve_value = 100;
+  //  } else if (digitalRead(DIP_SWITCH[1]) == HIGH) {
+  //    recieve_value = 110;
+  //  } else if (digitalRead(DIP_SWITCH[2] ) == HIGH) {
+  //    recieve_value = 120;
+  //  } else if (digitalRead(DIP_SWITCH[3]) == HIGH) {
+  //    recieve_value = 130;
+  //  } else {
+  //    recieve_value = 200;
+  //  }
 
 
 
@@ -134,7 +123,7 @@ void UART_Receive() {
 //}
 
 
-ISR(SPI_STC_vect) {
-  int dummy = SPDR;
-  //SPDR = recieve_value;
-}
+//ISR(SPI_STC_vect) {
+//  int dummy = SPDR;
+//  //SPDR = recieve_value;
+//}
