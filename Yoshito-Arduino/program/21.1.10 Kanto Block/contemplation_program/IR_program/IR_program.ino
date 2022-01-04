@@ -1,7 +1,4 @@
-//#include <SPI.h>
-#include <SoftwareSerial.h>
-SoftwareSerial IRSerial(23, 53); // RX, TX
-
+#include <SPI.h>
 const int IR_PIN[] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17};
 const int LED_PIN[] = {20, 21};
 const int LED_CIRCLE1[] = {30, 31, 32, 33, 34, 35, 36, 37};
@@ -14,15 +11,14 @@ int best;
 int knob;
 
 void setup() {
-  IRSerial.begin(38400);
-  //  SPCR |= bit(SPE);
-  //  pinMode(MISO, OUTPUT);
-  // SPI.attachInterrupt();
-  // Serial.begin(38400);
-    for (int id = 0; id <= 2; id++) {
-      pinMode(LED_PIN[id], OUTPUT);
-      digitalWrite(LED_PIN[id], HIGH);
-    }
+  SPCR |= bit(SPE);
+  pinMode(MISO, OUTPUT);
+  SPI.attachInterrupt();
+  Serial.begin(115200);
+  for (int id = 0; id <= 2; id++) {
+    pinMode(LED_PIN[id], OUTPUT);
+  //  digitalWrite(LED_PIN[id], HIGH);
+  }
   for (int id = 0; id <= 7; id++) {
     pinMode(LED_CIRCLE1[id], OUTPUT);
     pinMode(LED_CIRCLE2[id], OUTPUT);
@@ -60,22 +56,13 @@ void loop() {
   if (best_duration == 0) {
     best = 20;
   }
-  //  for (int id = 0; id <= 15; id++) {
-  //    if (duration[id] == 0) {
-  //    } else {
-  //      break;
-  //    }
-  //    best = 20;
-  //  }
-  LED_shine();
 
-  IRSerial.write(best);
-  //  Serial.print(best);
-  //  Serial.print('-');g
-  //  Serial.println(knob);
+  LED_shine();
+  Serial.println(best);
+  Serial.println(knob);
 }
 
-//ISR(SPI_STC_vect) {
-//  knob = SPDR;
-//  SPDR = best + 130;
-//}
+ISR(SPI_STC_vect) {
+  knob = SPDR;
+  SPDR = best;
+}

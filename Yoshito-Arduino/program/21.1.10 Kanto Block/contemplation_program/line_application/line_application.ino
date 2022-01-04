@@ -19,6 +19,7 @@ int line_max[32];
 int smallest;
 int biggest;
 int line_degree;
+unsigned long previousMicros = 0;
 int point;
 int return_degree;
 int current_degree;
@@ -27,14 +28,13 @@ int cur_re_degree;
 int pre_re_degree;
 int false_degree;
 int return_digits;
-unsigned long line_time;
+unsigned long line_time = 0;
 int degree;
 
 
 void setup() {
-  F_time_read();
   Serial.begin(115200);
-  LINESerial.begin(38400, ODD);
+  LINESerial.begin(38400);
   pinMode(10, OUTPUT);
   F_AMP_setup();
   F_LED_setup(60, 60, 60);
@@ -54,11 +54,11 @@ void loop() {
     line_value[id + 16] = analogRead(AMP_PIN[2]); //15-23
     line_value[id + 24] = analogRead(AMP_PIN[3]); //24-31
   }
-  line_value[20] = 0; //This is incompetence!!!!
+  line_value[28] = 0; //This is incompetence!!!!
 
   //  for (id = 0; id <= 31; id++) { //Please comment here as well.
-  //        Serial.print(line_value[id]);
-  //        Serial.print(",");
+  //    Serial.print(line_value[id]);
+  //    Serial.print(",");
   //  } //Please comment here as well.
 
   for (id = 0; id <= 31; id++) {
@@ -67,8 +67,8 @@ void loop() {
     } else {
       line_digits[id] = 0;
     }
-    //    Serial.print(line_digits[id]);
-    //    Serial.print(",");
+    //        Serial.print(line_digits[id]);
+    //        Serial.print(",");
   }
 
   for (id = 0; id <= 31; id++) {
@@ -95,7 +95,7 @@ void loop() {
   float line_value;
   if (biggest - smallest > 16) {
     line_value = (biggest + smallest) / 2;
-  } else if (biggest - smallest <= 16 ) {
+  } else if (0 < biggest - smallest & biggest - smallest <= 16 ) {
     line_value = (biggest + smallest) / 2 + 16;
     if (line_value <= 32) {
       line_value -= 32;
@@ -103,17 +103,23 @@ void loop() {
   } else if (biggest == 0 & smallest == 31) {
     line_value = -1;
   }
-  line_degree = abs(round(line_value * 11.25));
+  line_degree = round(line_value * 11.25);
 
   if (line_degree == 0) {
     line_degree = 360;
-  } else if (line_degree == 11) {
+  } else if (line_degree > 360) {
+    line_degree -= 360;
+  } else if (line_degree < 0 & line_degree != -11) {
+    line_degree += 360;
+  } else if (line_degree == -11) {
     line_degree = 0;
   }
-  // Serial.print(line_degree);
+  //  Serial.print(line_degree);
+  //  Serial.print(",");
   current_degree = line_degree;
 
-  if (abs(current_degree - previous_degree) >= 165 & current_degree != 0 & previous_degree != 0) {
+  if (abs(current_degree - previous_degree) >= 130 & current_degree != 0 & previous_degree != 0 & F_time_get() - previousMicros >= 1000000) {
+    previousMicros = F_time_get();
     point = 1;
   } else {
     point = 0;
@@ -125,7 +131,7 @@ void loop() {
     if (cur_re_degree != pre_re_degree & cur_re_degree != 0 & pre_re_degree != 0) {
       return_digits = 1;
       false_degree = pre_re_degree;
-      line_time = F_time_goal(300);
+      line_time = F_time_goal(1000);//300
     }
     pre_re_degree = cur_re_degree;
   }
@@ -142,20 +148,23 @@ void loop() {
   }
 
 
-  if (line_degree == 0 & return_degree > 0) {
+  if (current_degree == 0 & return_degree > 0) {
     degree = return_degree;
   } else if (return_digits == 1) {
     degree = false_degree;
+  } else if (return_digits == 0) {
+    degree = 0;
   } else {
     degree = 0;
   }
-
-  //Serial.print(pre_re_degree);
-  Serial.print(degree);
+  //
+  //  Serial.print(return_degree);
+  //  Serial.print(",");
 
   LINESerial.write(degree / 2);
   LINESerial.flush();
-
+  //Serial.print(degree);
   previous_degree = current_degree;
-  Serial.println();
+  degree = 0; //degree reset
+  //Serial.println();
 }

@@ -1,14 +1,14 @@
 
 void F_serial_setup()
 {
-  Serial.begin(115200);            // micon to PC
-  Serial2.begin(9600, SERIAL_8E1); // gyro
-  Serial3.begin(9600);             // IR
+  Serial.begin(38400);            // micon to PC
+  Serial2.begin(38400, SERIAL_8E1); // gyro
+  Serial3.begin(38400);             // IR
   line_Serial.begin(9600, ODD);
-  MT0_Serial.begin(9600, ODD);
-  MT1_Serial.begin(9600, ODD);
-  MT2_Serial.begin(9600, ODD);
-  MT3_Serial.begin(9600, ODD);
+  MT0_Serial.begin(38400, ODD);
+  MT1_Serial.begin(38400, ODD);
+  MT2_Serial.begin(38400, ODD);
+  MT3_Serial.begin(38400, ODD);
   pinMode(IR_RX, INPUT);
   pinMode(LINE_RX, INPUT);
   for (id = 0; id <= 3; id++)

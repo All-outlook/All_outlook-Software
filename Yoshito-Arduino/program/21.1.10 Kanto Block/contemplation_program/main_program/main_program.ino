@@ -9,7 +9,7 @@ int id;
 int gyro_degree;
 int gyro_speed;
 int IR_degree;
-int wrap_degree;
+int IR_value;
 int line_digits;
 int line_degree;
 int either_degree;
@@ -31,7 +31,7 @@ void setup()
   F_flame_setup();
   F_kicker_setup();
   F_reset_setup();
-  F_buzzer_setup();
+  //F_buzzer_setup();
 }
 
 void loop()
@@ -51,13 +51,13 @@ void loop()
     Serial.print(gyro_speed);
     Serial.print(",");
 
-    IR_degree = F_IR_serial();
+    IR_value = F_IR_serial();
     Serial.print('i');
-    Serial.print(IR_degree);
+    Serial.print(IR_value);
     Serial.print(",");
-    wrap_degree = F_wrap_degree(IR_degree);
+    IR_degree = F_wrap_degree(IR_value);
     Serial.print('w');
-    Serial.print(wrap_degree);
+    Serial.print(IR_degree);
     Serial.print(",");
 
     line_digits = F_line_serial();
@@ -120,6 +120,29 @@ void loop()
       {
         MT_speed[id] = 0;
       }
+    }
+
+
+    if (either_degree == 360 & gyro_speed == 0) {
+      MT_speed[0] = 255;
+      MT_speed[1] = 255;
+      MT_speed[2] = -255;
+      MT_speed[3] = -255;
+    } else if (either_degree == 90 & gyro_speed == 0) {
+      MT_speed[0] = -255;
+      MT_speed[1] = 255;
+      MT_speed[2] = 255;
+      MT_speed[3] = -255;
+    } else if (either_degree == 180 & gyro_speed == 0) {
+      MT_speed[0] = -255;
+      MT_speed[1] = -255;
+      MT_speed[2] = 255;
+      MT_speed[3] = 255;
+    } else if (either_degree == 270 & gyro_speed == 0) {
+      MT_speed[0] = 255;
+      MT_speed[1] = -255;
+      MT_speed[2] = -255;
+      MT_speed[3] = 255;
     }
 
     for (id = 0; id <= 3; id++)

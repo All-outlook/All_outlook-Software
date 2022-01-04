@@ -1,17 +1,15 @@
 #define SERIAL_8E1 0x26
 
-int gyro_serial;
 int F_gyro_serial()
 {
-  if (Serial2.available() > 0)
-  {
-    gyro_serial = Serial2.read() * 2;
+  int i;
+  while (Serial2.available() > 1) {
+    int g = Serial2.read();
   }
-  else
-  {
-    gyro_serial = 0;
+  if (Serial2.available()) {
+    i = Serial2.read() * 2;
   }
-  return gyro_serial;
+  return i;
 }
 
 int F_attitude_control(int gyro)

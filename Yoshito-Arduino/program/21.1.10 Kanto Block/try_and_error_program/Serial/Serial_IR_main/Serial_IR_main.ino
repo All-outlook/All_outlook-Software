@@ -73,4 +73,5 @@ void loop() {
 
   Serial.print(ir_ave_num);
   Serial.print(',');
+  degree = 0;
 }

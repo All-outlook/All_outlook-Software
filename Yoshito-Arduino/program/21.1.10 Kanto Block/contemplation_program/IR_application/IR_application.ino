@@ -1,4 +1,5 @@
-#include <SPI.h>
+#include <SoftwareSerial.h>
+SoftwareSerial IRSerial(23, 53); // RX, TX
 const int IR_PIN[] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17};
 const int LED_PIN[] = {20, 21};
 const int LED_CIRCLE1[] = {30, 31, 32, 33, 34, 35, 36, 37};
@@ -19,10 +20,9 @@ int best;
 
 void setup()
 {
-  SPCR |= bit(SPE);
-  pinMode(MISO, OUTPUT);
-  SPI.attachInterrupt();
   Serial.begin(115200);
+  IRSerial.begin(38400);
+  pinMode(10, OUTPUT);
   for (int id = 0; id <= 2; id++)
   {
     pinMode(LED_PIN[id], OUTPUT);
@@ -45,6 +45,7 @@ void loop()
   for (int id = 0; id <= 15; id++)
   {
     duration[id] = pulseIn(IR_PIN[id], LOW, mytimeout);
+    //Serial.print(duration[id]);
   }
 
   more = 0;
@@ -110,27 +111,22 @@ void loop()
   {
     degree += 360;
   }
-  if (x_axis == 0 & y_axis == 0)
+  if (x_axis == 0 & y_axis == 0 | best == 20)
   {
     degree = 0;
   }
 
   LED_shine();
-
-  for (int id = 0; id <= 4; id++)
-  {
-    Serial.print(range[id]);
-    Serial.print(",");
-  }
-  Serial.print(degree);
-  Serial.print("°");
-  Serial.println();
+  
+  IRSerial.write(degree / 2);
+  IRSerial.flush();
+  
+//  Serial.print(degree);
 
   for (int id = 0; id <= 4; id++)
   {
     range[id] = 0;
   }
-  int half_degree = degree / 2;
-  Serial.write(half_degree);
-  Serial.flush();
+//  Serial.println();
+
 }

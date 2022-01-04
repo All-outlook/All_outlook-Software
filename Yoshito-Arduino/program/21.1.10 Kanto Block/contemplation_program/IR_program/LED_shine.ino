@@ -2,26 +2,28 @@ void LED_shine() {
   for (int id = 0; id <= 7; id++) {
     digitalWrite(LED_CIRCLE1[id], LOW);
   }
-
-  if (326 <= degree & degree <= 360 | 0 < degree & degree < 11) {
+  
+  if (best == 0 | best == 1) {
     digitalWrite(LED_CIRCLE1[0], HIGH);
-  } else if (11 <= degree & degree < 56) {
+  } else if (best == 2 | best == 3) {
     digitalWrite(LED_CIRCLE1[1], HIGH);
-  } else if (56 <= degree & degree < 101) {
+  } else if (best == 4 | best == 5) {
     digitalWrite(LED_CIRCLE1[2], HIGH);
-  } else if (101 <= degree & degree < 146) {
+  } else if (best == 6 | best == 7) {
     digitalWrite(LED_CIRCLE1[3], HIGH);
-  } else if (146 <= degree & degree < 191) {
+  } else if (best == 8 | best == 9) {
     digitalWrite(LED_CIRCLE1[4], HIGH);
-  } else if (191 <= degree & degree < 236) {
+  } else if (best == 10 | best == 11) {
     digitalWrite(LED_CIRCLE1[5], HIGH);
-  } else if (236 <= degree & degree < 281) {
+  } else if (best == 12 | best == 13) {
     digitalWrite(LED_CIRCLE1[6], HIGH);
-  } else if (281 <= degree & degree < 326) {
+  } else if (best == 14 | best == 15) {
     digitalWrite(LED_CIRCLE1[7], HIGH);
-  } else if (degree == 0) {
+  } else if (best == 20) {
     for (int id = 0; id <= 7; id++) {
       digitalWrite(LED_CIRCLE1[id], HIGH);
     }
+  } else {
+
   }
 }
