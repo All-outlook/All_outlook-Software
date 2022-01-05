@@ -1,5 +1,5 @@
 //#include <SPI.h>
-#include <SoftwareSerialParity.h>
+#include <SoftwareSerial.h>
 
 #define C_BORDER_WHITE_LINE 700
 //スーパーチーム70
@@ -18,12 +18,12 @@ const int READ_PIN[] = {A0, A1, A2, A3};
 
 int line_value[32];
 
-SoftwareSerialParity LINESerial(7, 10); //rx,tx
+SoftwareSerial LINESerial(7, 10); //rx,tx
 
 
 void setup() {
   Serial.begin(115200);
-  LINESerial.begin(38400, ODD);
+  LINESerial.begin(38400);
   pinMode(10, OUTPUT);
   F_line_setup();
 
