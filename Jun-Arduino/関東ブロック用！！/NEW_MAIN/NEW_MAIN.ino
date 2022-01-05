@@ -7,7 +7,7 @@ void setup() {
   F_BUZ_setup();
   F_BUZ_frog();
 
-  Serial.begin(38400);
+  Serial.begin(115200);
 
   F_MD_setup();
   F_SWITCH_setup();
@@ -35,28 +35,33 @@ void loop() {
 
     int IR_DEGDEG = F_IR_wrap_around(F_IR_read());
     int LINE_DEGDEG = F_LINE_read();
-    //int LINE_DEGDEG = 0;
     int IRLINE;
-    Serial.println(IR_DEGDEG);
-    //    Serial.print(':');
-    //    Serial.println(LINE_DEGDEG);
+    Serial.print(IR_DEGDEG);
+    Serial.print(',');
+    Serial.print(LINE_DEGDEG);
+    Serial.print(',');
+    Serial.print(GYRO_DEGDEG);
+    Serial.println(',');
     if (LINE_DEGDEG != 0) {
       IRLINE = LINE_DEGDEG;
     } else {
       IRLINE = IR_DEGDEG;
     }
 
+    digitalWrite(30,HIGH);
+
 
     //スーパーーチーム用
 
-    //回転させるよ************************************
-    if (IRLINE == 2000) {
-      //見えないよ
-      F_MD_rotate(180 , GYRO_DEGDEG, 1);
-    } else {
-      F_MD_rotate(IRLINE , GYRO_DEGDEG, 10);
-    }
-    //*******************************************ここまで
+//    //回転させるよ************************************
+//    if (IRLINE == 2000) {
+//      //見えないよ
+//      F_MD_rotate(180 , GYRO_DEGDEG, 1);
+//    } else {
+//      F_MD_rotate(IRLINE , GYRO_DEGDEG, 10);
+//    }
+//    //*******************************************ここまで
+    digitalWrite(31,HIGH);
 
   } else {
     /*

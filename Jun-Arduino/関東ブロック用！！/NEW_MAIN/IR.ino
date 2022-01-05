@@ -103,8 +103,6 @@ Serial_error:
   }
 
 
-  Serial.print(ir_ave_num);
-  Serial.print(',');
   return ir_ave_num;
 
 
