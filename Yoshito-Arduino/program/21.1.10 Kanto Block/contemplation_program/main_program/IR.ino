@@ -18,11 +18,11 @@ int F_wrap_degree(int IR)
 {
   if (10 <= IR & IR < 180)
   {
-    IR_wrap = IR + 50;
+    IR_wrap = IR + 35;
   }
   else if (180 <= IR & IR < 350)
   {
-    IR_wrap = IR - 50;
+    IR_wrap = IR - 35;
   }
   else if (0 < IR & IR < 10 | 350 <= IR & IR <= 360)
   {

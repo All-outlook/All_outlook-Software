@@ -12,7 +12,7 @@ void F_buzzer_setup()
   
   if (random_digits == 0)
   {
-    F_buzzer_zero();
+    F_buzzer_three();
   }
   else if (random_digits == 1)
   {
@@ -24,7 +24,7 @@ void F_buzzer_setup()
   }
   else if (random_digits == 3)
   {
-    F_buzzer_three();
+    F_buzzer_zero();
   }
   else if (random_digits == 4)
   {

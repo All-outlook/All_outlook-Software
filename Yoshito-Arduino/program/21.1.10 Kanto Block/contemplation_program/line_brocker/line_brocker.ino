@@ -20,8 +20,8 @@ int smallest;
 int biggest;
 int line_degree;
 unsigned long line_time = 0;
-const unsigned long diagonal_time = 1000;
-const unsigned long width_time = 300;
+const unsigned long diagonal_time = 0; //1000
+const unsigned long width_time = 0; //300
 int false_digits = 0;
 int degree;
 int false_degree;
@@ -52,10 +52,10 @@ void loop() {
   }
   line_value[28] = 0; //This is incompetence!!!!n
 
-  //    for (id = 0; id <= 31; id++) { //Please comment here as well.
-  //      Serial.print(line_value[id]);
-  //      Serial.print(",");
-  //    } //Please comment here as well.
+  //  for (id = 0; id <= 31; id++) { //Please comment here as well.
+  //    Serial.print(line_value[id]);
+  //    Serial.print(",");
+  //  } //Please comment here as well.
 
   for (id = 0; id <= 31; id++) {
     if (line_value[id] >= C_line_threshold) {
@@ -63,8 +63,8 @@ void loop() {
     } else {
       line_digits[id] = 0;
     }
-    //    Serial.print(line_digits[id]);
-    //    Serial.print(",");
+    //        Serial.print(line_digits[id]);
+    //        Serial.print(",");
   }
   for (id = 0; id <= 31; id++) {
     if (line_digits[id] == 1) {
@@ -82,10 +82,10 @@ void loop() {
     smallest = min(smallest, line_min[id]);
     biggest = max(biggest, line_max[id]);
   }
-  //  Serial.print(smallest);
-  //  Serial.print(",");
-  //  Serial.print(biggest);
-  //  Serial.print(",");
+  Serial.print(smallest);
+  Serial.print(",");
+  Serial.print(biggest);
+  Serial.print(",");
 
   float line_value;
   if (biggest - smallest > 16) {
@@ -110,52 +110,36 @@ void loop() {
     line_degree = 0;
   }
 
-  if (line_degree == 0) {
+  if (line_degree == 0) { //in the court
     degree = 180;
   } else if (23 <= line_degree & line_degree < 58) { //The white line is in the higher right corner.
     false_degree = 203;
-    line_time = F_time_goal(diagonal_time);
     false_digits = 1;
+    line_time = F_time_goal(1000);
   } else if (58 <= line_degree & line_degree < 113) { //The white line is near 90 degrees.
-    if (line_digits[26] == 0 | line_digits[27] == 0) {
-      false_degree = 270;
-      line_time = F_time_goal(width_time);
-      false_digits = 1;
-    }
-  } else if (113 <= line_degree & line_degree < 158) { //The white line is in the lower right corner.
-    false_degree = 338;
-    line_time = F_time_goal(diagonal_time);
+    false_degree = 270;
     false_digits = 1;
+    line_time = F_time_goal(300);
+  }  else if (113 <= line_degree & line_degree < 158) { //The white line is in the lower right corner.
+    false_degree = 338;
+    false_digits = 1;
+    line_time = F_time_goal(1000);
   } else if (158 <= line_degree & line_degree < 203) { //The white line is near 180 degrees.
-    if (line_digits[5] == 1 & line_digits[6] == 1 & line_digits[26] == 1 & line_digits[27] == 1) {
-      degree = 0;
-    } else if ((line_digits[5] == 0 | line_digits[6] == 0 ) & (line_digits[26] == 1 | line_digits[27] == 1)) {
-      degree = 90;
-    } else if ((line_digits[5] == 1 | line_digits[6] == 1) & (line_digits[26] == 0 | line_digits[27] == 0)) {
-      degree = 270;
-    } else if (line_digits[28] == 1 | line_digits[29] = 1 | line_digits[30] == 1 | line_digits[31] == 1 | line_digits[0] == 1 | line_digits[1] == 1 | line_digits[2] == 1 | line_digits[3] == 1 | line_digits[4] == 1) {
-      degree = 360;
-    } else if (5 <= smallest & smallest < 28 & 5 <= biggest & biggest < 28) {
-      degree = 180;
-    } else {
-      degree = 0;
-    }
+    degree = 0;
   } else if (203 <= line_degree & line_degree < 258) { //The white line is in the lower left corner.
     false_degree = 23;
-    line_time = F_time_goal(diagonal_time);
     false_digits = 1;
+    line_time = F_time_goal(1000);
   }  else if (258 <= line_degree & line_degree < 303) { //The white line is near 270 degrees.
-    if (line_digits[5] == 0 | line_digits[6] == 0) {
-      false_degree = 90;
-      line_time = F_time_goal(width_time);
-      false_digits = 1;
-    }
+    false_degree = 90;
+    false_digits = 1;
+    line_time = F_time_goal(300);
   } else if (303 <= line_degree & line_degree < 338) { //The white line is in the higher left corner.
     false_degree = 158;
-    line_time = F_time_goal(diagonal_time);
     false_digits = 1;
+    line_time = F_time_goal(1000);
   } else if (338 <= line_degree & line_degree <= 360 | 0 < line_degree & line_degree < 23) {
-    degree = 0;
+    degree = 360;
   }
 
   if (F_time_get() >= line_time & line_time != 0)
@@ -169,9 +153,9 @@ void loop() {
   } else {
     go_degree = degree;
   }
-  //  Serial.print(line_degree);
-  //  Serial.print(",");
-  //Serial.print(degree);
+  Serial.print(line_degree);
+  Serial.print(",");
+  Serial.print(degree);
 
   LINESerial.write(go_degree / 2);
   LINESerial.flush();
