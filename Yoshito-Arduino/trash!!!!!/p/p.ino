@@ -19,18 +19,6 @@ int line_max[32];
 int smallest;
 int biggest;
 int line_degree;
-unsigned long previousMicros = 0;
-int point;
-int return_degree;
-int current_degree;
-int previous_degree;
-int cur_re_degree;
-int pre_re_degree;
-int false_degree;
-int return_digits;
-unsigned long line_time = 0;
-int degree;
-
 
 void setup() {
   Serial.begin(38400);
@@ -41,11 +29,7 @@ void setup() {
 }
 
 void loop() {
-  F_time_read();
-  //  Serial.print('t');
-  //  Serial.print(F_time_get());
-  //  Serial.print(",");
-
+  
   F_LED_loop(128, 1, 1);
   for (int id = 0; id <= 7; id++) {
     F_line_choice(id);
@@ -114,57 +98,10 @@ void loop() {
   } else if (line_degree == -11) {
     line_degree = 0;
   }
-  //  Serial.print(line_degree);
-  //  Serial.print(",");
-  current_degree = line_degree;
 
-  if (abs(current_degree - previous_degree) >= 130 & current_degree != 0 & previous_degree != 0 & F_time_get() - previousMicros >= 1000000) {
-    previousMicros = F_time_get();
-    point = 1;
-  } else {
-    point = 0;
-  }
-
-  if (point == 1) {
-    return_degree = previous_degree;
-    cur_re_degree = previous_degree;
-    if (cur_re_degree != pre_re_degree & cur_re_degree != 0 & pre_re_degree != 0) {
-      return_digits = 1;
-      false_degree = pre_re_degree;
-      line_time = F_time_goal(300);//300
-    }
-    pre_re_degree = cur_re_degree;
-  }
-
-  if (F_time_get() > line_time & line_time != 0) {
-    return_digits = 0;
-    return_degree = 0;
-    false_degree = 0;
-    current_degree = 0;
-    previous_degree = 0;
-    pre_re_degree = 0;
-    cur_re_degree = 0;
-    line_time = 0;
-  }
-
-
-  if (current_degree == 0 & return_degree > 0) {
-    degree = return_degree;
-  } else if (return_digits == 1) {
-    degree = false_degree;
-  } else if (return_digits == 0) {
-    degree = 0;
-  } else {
-    degree = 0;
-  }
-
-  //  Serial.print(return_degree);
-  //  Serial.print(",");
-
-  LINESerial.write(degree / 2);
+  LINESerial.write(line_degree / 2);
   LINESerial.flush();
-  Serial.print(previousMicros);
-  previous_degree = current_degree;
-  degree = 0; //degree reset
+  Serial.print(line_degree);
+  line_degree = 0; //line_degree reset
   Serial.println();
 }

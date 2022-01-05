@@ -31,7 +31,7 @@ void setup()
   F_flame_setup();
   F_kicker_setup();
   F_reset_setup();
-  //F_buzzer_setup();
+  F_buzzer_setup();
 }
 
 void loop()

@@ -26,6 +26,7 @@ const int damage[18] = {La2, Mi, La, 0, 0, 0, La2, Mi, La, 0, 0, 0, La2, Mi, La,
 const int star[32] = {Do2, 0, Do2, 0, Do2, 0, Re, Do2, 0, Do2, 0, Re, Do2, 0, Do2, 0,
                       Si , 0, Si, 0, Si, 0, Do, Si, 0, Si, 0, Do, Si, 0, Si, 0
                      };
+int repetition;
 
 void F_buzzer_zero() {
   tone(35, 740, 300);
@@ -80,7 +81,7 @@ void F_buzzer_one() {
 }
 
 void F_buzzer_two() {
-  for (id = 0; id < 3; id++) {
+  for (id = 0; id <= 2; id++) {
     tone(35, Si2, 100);
     delay(50);
     tone(35, Mi3, 250);
@@ -88,12 +89,14 @@ void F_buzzer_two() {
   }
   delay(200);
 
-  for (id = 0; id <= 2; id++) {
+  while(repetition <= 2){
     for (id = 0; id < 6; id++) {
       tone(35, oneup[id], 100);
-      delay(125);
+      delay(135);
     }
+    repetition++;
   }
+  repetition = 0;
 }
 
 void F_buzzer_three() {

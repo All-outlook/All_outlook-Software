@@ -45,8 +45,12 @@ void loop()
   for (int id = 0; id <= 15; id++)
   {
     duration[id] = pulseIn(IR_PIN[id], LOW, mytimeout);
-    //Serial.print(duration[id]);
   }
+
+    for (int id = 0; id <= 15; id++) { //Please comment here as well.
+      Serial.print(duration[id]);
+      Serial.print(",");
+    } //Please comment here as well.
 
   more = 0;
   best_duration = 0;
@@ -117,16 +121,16 @@ void loop()
   }
 
   LED_shine();
-  
+
   IRSerial.write(degree / 2);
   IRSerial.flush();
-  
-//  Serial.print(degree);
+
+  Serial.print(degree);
 
   for (int id = 0; id <= 4; id++)
   {
     range[id] = 0;
   }
-//  Serial.println();
+  Serial.println();
 
 }

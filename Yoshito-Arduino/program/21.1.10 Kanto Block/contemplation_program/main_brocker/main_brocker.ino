@@ -31,7 +31,7 @@ void setup()
   F_flame_setup();
   F_kicker_setup();
   F_reset_setup();
-  //F_buzzer_setup();
+  F_buzzer_setup();
 }
 
 void loop()
@@ -127,27 +127,27 @@ void loop()
     }
 
 
-   /* if (either_degree == 360 & gyro_speed == 0) {
-      MT_speed[0] = 255;
-      MT_speed[1] = 255;
-      MT_speed[2] = -255;
-      MT_speed[3] = -255;
-    } else if (either_degree == 90 & gyro_speed == 0) {
-      MT_speed[0] = -255;
-      MT_speed[1] = 255;
-      MT_speed[2] = 255;
-      MT_speed[3] = -255;
-    } else if (either_degree == 180 & gyro_speed == 0) {
-      MT_speed[0] = -255;
-      MT_speed[1] = -255;
-      MT_speed[2] = 255;
-      MT_speed[3] = 255;
-    } else if (either_degree == 270 & gyro_speed == 0) {
-      MT_speed[0] = 255;
-      MT_speed[1] = -255;
-      MT_speed[2] = -255;
-      MT_speed[3] = 255;
-    }*/
+//    if (either_degree == 360 & gyro_speed == 0) {
+//      MT_speed[0] = 255;
+//      MT_speed[1] = 255;
+//      MT_speed[2] = -255;
+//      MT_speed[3] = -255;
+//    } else if (either_degree == 90 & gyro_speed == 0) {
+//      MT_speed[0] = -255;
+//      MT_speed[1] = 255;
+//      MT_speed[2] = 255;
+//      MT_speed[3] = -255;
+//    } else if (either_degree == 180 & gyro_speed == 0) {
+//      MT_speed[0] = -255;
+//      MT_speed[1] = -255;
+//      MT_speed[2] = 255;
+//      MT_speed[3] = 255;
+//    } else if (either_degree == 270 & gyro_speed == 0) {
+//      MT_speed[0] = 255;
+//      MT_speed[1] = -255;
+//      MT_speed[2] = -255;
+//      MT_speed[3] = 255;
+//    }
 
     for (id = 0; id <= 3; id++)
     {
@@ -230,7 +230,7 @@ void loop()
     Serial.print("OFF");
     for (id = 0; id <= 3; id++);
     {
-      F_speed_send(id, 30);
+      F_speed_send(id, 40);
     }
     F_LED_turnon();
   }
