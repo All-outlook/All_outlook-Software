@@ -8,8 +8,6 @@ void setup() {
   F_ESP_setup();
   F_GYRO_setup();
   F_KICCER_SETUP();
-  F_LINE_setup();
-  F_IR_setup();
   delay(1000);
 }
 
@@ -20,9 +18,6 @@ void loop() {
   F_time_read();
   F_KICCER_loop();
   F_GYRO_read();
-  F_LINE_read();
-  
-  F_IR_read();
 
 
   if (F_ESP_switch() == 3) {
