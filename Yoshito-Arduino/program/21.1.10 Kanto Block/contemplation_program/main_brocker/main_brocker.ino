@@ -10,8 +10,10 @@ int gyro_degree;
 int gyro_speed;
 int IR_degree;
 int IR_value;
+int IR_another;
 int line_digits;
 int line_degree;
+int line_another;
 int either_degree;
 int either_speed[4];
 char MT_number[] = {'A', 'B', 'C', 'D'};
@@ -59,10 +61,10 @@ void loop()
     Serial.print('s');
     Serial.print(IR_degree);
     Serial.print(",");
-//    IR_degree = F_wrap_degree(IR_value);
-//    Serial.print('w');
-//    Serial.print(IR_degree);
-//    Serial.print(",");
+    IR_another = F_go_forward(IR_value);
+    Serial.print('f');
+    Serial.print(IR_another);
+    Serial.print(",");
 
     line_digits = F_line_serial();
     Serial.print('l');
@@ -72,18 +74,41 @@ void loop()
     Serial.print('s');
     Serial.print(line_degree);
     Serial.print(",");
+    line_another = F_just_pulled(line_digits);
+    Serial.print('j');
+    Serial.print(line_another);
+    Serial.print(",");
 
-    if (line_degree != 0 & IR_degree != 0 | line_degree != 0 & IR_degree == 0)
-    {
-      either_degree = line_degree;
-    }
-    else if (line_degree == 0 & IR_degree != 0)
-    {
-      either_degree = IR_degree;
-    }
-    else if (line_degree == 0 & IR_degree == 0)
-    {
-      either_degree = 0;
+    if (IR_digits == 1) {
+      either_degree = IR_another;
+
+    } else if (IR_digits == 2) {
+      if (line_another != 0 & IR_another != 0 | line_another != 0 & IR_another == 0)
+      {
+        either_degree = line_another;
+      }
+      else if (line_another == 0 & IR_another != 0)
+      {
+        either_degree = another;
+      }
+      else if (line_another == 0 & IR_another == 0)
+      {
+        either_degree = 0;
+      }
+
+    } else {
+      if (line_degree != 0 & IR_degree != 0 | line_degree != 0 & IR_degree == 0)
+      {
+        either_degree = line_degree;
+      }
+      else if (line_degree == 0 & IR_degree != 0)
+      {
+        either_degree = IR_degree;
+      }
+      else if (line_degree == 0 & IR_degree == 0)
+      {
+        either_degree = 0;
+      }
     }
     Serial.print("e");
     Serial.print(either_degree);
@@ -127,27 +152,27 @@ void loop()
     }
 
 
-//    if (either_degree == 360 & gyro_speed == 0) {
-//      MT_speed[0] = 255;
-//      MT_speed[1] = 255;
-//      MT_speed[2] = -255;
-//      MT_speed[3] = -255;
-//    } else if (either_degree == 90 & gyro_speed == 0) {
-//      MT_speed[0] = -255;
-//      MT_speed[1] = 255;
-//      MT_speed[2] = 255;
-//      MT_speed[3] = -255;
-//    } else if (either_degree == 180 & gyro_speed == 0) {
-//      MT_speed[0] = -255;
-//      MT_speed[1] = -255;
-//      MT_speed[2] = 255;
-//      MT_speed[3] = 255;
-//    } else if (either_degree == 270 & gyro_speed == 0) {
-//      MT_speed[0] = 255;
-//      MT_speed[1] = -255;
-//      MT_speed[2] = -255;
-//      MT_speed[3] = 255;
-//    }
+    //    if (either_degree == 360 & gyro_speed == 0) {
+    //      MT_speed[0] = 255;
+    //      MT_speed[1] = 255;
+    //      MT_speed[2] = -255;
+    //      MT_speed[3] = -255;
+    //    } else if (either_degree == 90 & gyro_speed == 0) {
+    //      MT_speed[0] = -255;
+    //      MT_speed[1] = 255;
+    //      MT_speed[2] = 255;
+    //      MT_speed[3] = -255;
+    //    } else if (either_degree == 180 & gyro_speed == 0) {
+    //      MT_speed[0] = -255;
+    //      MT_speed[1] = -255;
+    //      MT_speed[2] = 255;
+    //      MT_speed[3] = 255;
+    //    } else if (either_degree == 270 & gyro_speed == 0) {
+    //      MT_speed[0] = 255;
+    //      MT_speed[1] = -255;
+    //      MT_speed[2] = -255;
+    //      MT_speed[3] = 255;
+    //    }
 
     for (id = 0; id <= 3; id++)
     {

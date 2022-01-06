@@ -6,10 +6,10 @@ void F_buzzer_setup()
   pinMode(BUZZER, OUTPUT);
   randomSeed(analogRead(0));
   random_digits = random(0, 6);
-
+  random_digits = 0; //I like Family Mart;
   Serial.print(random_digits);
   Serial.print("..........");
-  
+
   if (random_digits == 0)
   {
     F_buzzer_zero();

@@ -55,7 +55,7 @@ void loop()
     Serial.print('i');
     Serial.print(IR_value);
     Serial.print(",");
-    IR_degree = F_wrap_degree(IR_value);
+    IR_degree = F_go_forward(IR_value);
     Serial.print('w');
     Serial.print(IR_degree);
     Serial.print(",");
@@ -122,28 +122,27 @@ void loop()
       }
     }
 
-
-    if (either_degree == 360 & gyro_speed == 0) {
-      MT_speed[0] = 255;
-      MT_speed[1] = 255;
-      MT_speed[2] = -255;
-      MT_speed[3] = -255;
-    } else if (either_degree == 90 & gyro_speed == 0) {
-      MT_speed[0] = -255;
-      MT_speed[1] = 255;
-      MT_speed[2] = 255;
-      MT_speed[3] = -255;
-    } else if (either_degree == 180 & gyro_speed == 0) {
-      MT_speed[0] = -255;
-      MT_speed[1] = -255;
-      MT_speed[2] = 255;
-      MT_speed[3] = 255;
-    } else if (either_degree == 270 & gyro_speed == 0) {
-      MT_speed[0] = 255;
-      MT_speed[1] = -255;
-      MT_speed[2] = -255;
-      MT_speed[3] = 255;
-    }
+//    if (either_degree == 360 & gyro_speed == 0) {
+//      MT_speed[0] = 254;
+//      MT_speed[1] = 254;
+//      MT_speed[2] = -254;
+//      MT_speed[3] = -254;
+//    } else if (either_degree == 90 & gyro_speed == 0) {
+//      MT_speed[0] = -254;
+//      MT_speed[1] = 254;
+//      MT_speed[2] = 254;
+//      MT_speed[3] = -254;
+//    } else if (either_degree == 180 & gyro_speed == 0) {
+//      MT_speed[0] = -254;
+//      MT_speed[1] = -254;
+//      MT_speed[2] = 254;
+//      MT_speed[3] = 254;
+//    } else if (either_degree == 270 & gyro_speed == 0) {
+//      MT_speed[0] = 254;
+//      MT_speed[1] = -254;
+//      MT_speed[2] = -254;
+//      MT_speed[3] = 254;
+//    }
 
     for (id = 0; id <= 3; id++)
     {
@@ -226,7 +225,7 @@ void loop()
     Serial.print("OFF");
     for (id = 0; id <= 3; id++);
     {
-      F_speed_send(id, 30);
+      F_speed_send(id, 40);
     }
     F_LED_turnon();
   }
@@ -235,4 +234,12 @@ void loop()
     pre_MT_rotate[id] = MT_rotate[id];
   }
   Serial.println();
+}void setup() {
+  // put your setup code here, to run once:
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
 }

@@ -1,9 +1,36 @@
-int current_degree = 0:
-int previous_degree = 0;
-int line_count;:
-unsigned long line_time;
+const int LINE_RX = 68;
+const int LINE_TX = 49;
+SoftwareSerialParity line_Serial(LINE_RX, LINE_TX);  // rx,tx
+
+int LINESerial;
+int current_value;
+int previous_value;
+unsigned long lineMicros = 0;
+int point;
+int return_degree;
+int current_degree;
+int previous_degree;
+int line_count;
+unsigned long line_time = 0;
 int return_degree;
 int degree;
+
+int F_line_serial()
+{
+  if (line_Serial.available() > 0) {
+    current_value = line_Serial.read() * 2;
+  }
+  if (current_value > 360) {
+    current_value = 0;
+  }
+  if(current_value == 0 & previous_value != 0){
+    LINESerial = previous_value;
+  } else {
+    LINESerial = current_value;
+  }
+  previous_value = current_value; 
+  return LINESerial;
+}
 
 int F_line_avoid(int line, int IR)
 {

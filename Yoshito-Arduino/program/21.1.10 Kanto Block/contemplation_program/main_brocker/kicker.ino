@@ -22,7 +22,7 @@ void F_kicker_setup()
   for (id = 0; id <= 1; id++)
   {
     pinMode(CAPTURE_PIN[id], INPUT);
-    pixels.setPixelColor(id, pixels.Color(128, 128, 128));
+    pixels.setPixelColor(id, pixels.Color(10, 10, 10));
     //    pixels.setPixelColor(id, pixels.Color(0, 0, 0));
     pixels.show();
   }
