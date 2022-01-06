@@ -6,13 +6,13 @@ void F_buzzer_setup()
   pinMode(BUZZER, OUTPUT);
   randomSeed(analogRead(0));
   random_digits = random(0, 6);
-
+random_digits = 0;
   Serial.print(random_digits);
   Serial.print("..........");
   
   if (random_digits == 0)
   {
-    F_buzzer_three();
+    F_buzzer_zero();
   }
   else if (random_digits == 1)
   {
@@ -24,7 +24,7 @@ void F_buzzer_setup()
   }
   else if (random_digits == 3)
   {
-    F_buzzer_zero();
+    F_buzzer_three();
   }
   else if (random_digits == 4)
   {
