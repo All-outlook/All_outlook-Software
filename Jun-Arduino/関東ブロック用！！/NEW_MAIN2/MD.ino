@@ -1,7 +1,7 @@
 #include <SoftwareSerial.h>
 
-SoftwareSerial MT_R_Serial(42, 53);//rx,tx
-SoftwareSerial MT_L_Serial(45, 58);//rx,tx
+SoftwareSerial MT_R_Serial(-1, 53);//rx,tx
+SoftwareSerial MT_L_Serial(-1, 58);//rx,tx
 
 const int MOTOR_DEG[] = {45, 135, 225, 315}; // モーター配置角度
 int out_speed[4];//出力値
@@ -37,12 +37,12 @@ void F_MD_rotate(int LINEIR, int GYRO, int SPEED) {
     }
 
     F_speed_send(i, out_speed[i]);
-//    Serial.print(i);
-//    Serial.print(':');
-//    Serial.print(out_speed[i]);
-//    Serial.print(' ');
+    //    Serial.print(i);
+    //    Serial.print(':');
+    //    Serial.print(out_speed[i]);
+    //    Serial.print(' ');
   }
-//  Serial.println();
+  //  Serial.println();
 }
 
 
@@ -98,13 +98,12 @@ void F_MD_setup() {
   pinMode(58, OUTPUT);
 
 
-  MT_R_Serial.begin(38400);
-  MT_L_Serial.begin(38400);
 }
 
 
 void F_speed_send(int id , int mySpeed) {
   if (id == 0 || id == 1) {
+    MT_R_Serial.begin(38400);
     if (mySpeed == -1) {
       //ブレーキ 0
       MT_R_Serial.write(0 + id);
@@ -120,7 +119,9 @@ void F_speed_send(int id , int mySpeed) {
       //ストップ 30
       MT_R_Serial.write(30 + id);
     }
+    MT_R_Serial.end();
   } else if (id == 2 || id == 3) {
+    MT_L_Serial.begin(38400);
     if (mySpeed == -1) {
       //ブレーキ 0
       MT_L_Serial.write(0 + id);
@@ -136,5 +137,6 @@ void F_speed_send(int id , int mySpeed) {
       //ストップ 30
       MT_L_Serial.write(30 + id);
     }
+    MT_L_Serial.end();
   }
 }

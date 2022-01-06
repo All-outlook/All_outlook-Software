@@ -25,7 +25,7 @@ void F_IR_setup() {
 int IR_recive = 0;
 
 float F_IR_read() {
-Serial_error:
+//Serial_error:
   while (Serial3.available() > 10) {
     int g = Serial3.read();
   }
@@ -34,9 +34,9 @@ Serial_error:
     IR_recive = Serial3.read();
   }
 
-  if (IR_recive > 30) {
-    goto Serial_error;
-  }
+//  if (IR_recive > 30) {
+//    goto Serial_error;
+//  }
   Serial.print("__");
   Serial.print(IR_recive);
   Serial.print("__");
