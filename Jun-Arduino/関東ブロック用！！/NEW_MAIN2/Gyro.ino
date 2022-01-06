@@ -4,7 +4,7 @@ void F_GYRO_setup(){
 
 int Gyro_value;
 
-void F_GYRO_loop(){
+void F_GYRO_read(){
   while (Serial2.available() > 1) {
     int g = Serial2.read();
   }
@@ -13,6 +13,6 @@ void F_GYRO_loop(){
   }
 }
 
-int F_GYRO_read(){
+int F_GYRO_get(){
   return Gyro_value;
 }

@@ -21,7 +21,7 @@ void F_MD_rotate(int LINEIR, int GYRO, int SPEED) {
     //    Serial.println(lineIr_speed);
 
 
-    out_speed[i] = gyro_speed * 0.4 + lineIr_speed * 1;
+    out_speed[i] = gyro_speed * 1 + lineIr_speed * 1;
 
   }
 
@@ -37,12 +37,12 @@ void F_MD_rotate(int LINEIR, int GYRO, int SPEED) {
     }
 
     F_speed_send(i, out_speed[i]);
-    Serial.print(i);
-    Serial.print(':');
-    Serial.print(out_speed[i]);
-    Serial.print(' ');
+//    Serial.print(i);
+//    Serial.print(':');
+//    Serial.print(out_speed[i]);
+//    Serial.print(' ');
   }
-  Serial.println();
+//  Serial.println();
 }
 
 
@@ -69,14 +69,15 @@ int F_MD_gyro(int gyro_deg, int myspeed) {
     それぞれのモーターごとに計算してね！！
   */
   int pwm_val = 0;
+  myspeed = 254;
   if (gyro_deg != 0) {
-    if (5 <= gyro_deg && gyro_deg <= 180) {
+    if (3 <= gyro_deg && gyro_deg <= 180) {
       //左回り
-      pwm_val = map(gyro_deg, 0, 180, 40, myspeed);
+      pwm_val = map(gyro_deg, 3, 180, 40, myspeed);
 
-    } else if (180 <= gyro_deg && gyro_deg <= 355) {
+    } else if (180 <= gyro_deg && gyro_deg <= 357) {
       //右回り
-      pwm_val = map(gyro_deg, 360, 180, -40, -myspeed);
+      pwm_val = map(gyro_deg, 357, 180, -40, -myspeed);
 
     } else {
       //回らない

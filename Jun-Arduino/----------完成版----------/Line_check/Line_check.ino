@@ -1,5 +1,5 @@
 //#include <SPI.h>
-#include <SoftwareSerialParity.h>
+#include <SoftwareSerial.h>
 
 const int A_PIN = 2;
 const int B_PIN = 3;
@@ -13,12 +13,12 @@ const int C_BORDER_WHITE_LINE = 250;
 
 int line_value[32];
 
-SoftwareSerialParity LINESerial(7, 10); //rx,tx
+SoftwareSerial LINESerial(7, 10); //rx,tx
 
 
 void setup() {
   Serial.begin(38400);
-  LINESerial.begin(38400, ODD);
+  LINESerial.begin(38400);
   pinMode(10,OUTPUT);
   F_line_setup();
 }

@@ -38,6 +38,7 @@ int pre_controller_switch = 0;
 void F_ESP_read() {
   if ( Serial1.available() ) {
     String str = Serial1.readStringUntil('#');
+//    Serial.println(str);
     long value = str.toInt();
 
     if ((value / 10000) == 0) {
