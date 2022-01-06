@@ -1,4 +1,6 @@
-//1second = 1,000millis = 1,000,000micros
+//1s = 1,000millis = 1,000,000micros
+//goal_time(n), n = millis
+
 unsigned long current_time;
 
 void F_time_read() {

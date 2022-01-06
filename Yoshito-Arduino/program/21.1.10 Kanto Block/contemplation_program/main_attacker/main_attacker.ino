@@ -122,27 +122,26 @@ void loop()
       }
     }
 
-
 //    if (either_degree == 360 & gyro_speed == 0) {
-//      MT_speed[0] = 255;
-//      MT_speed[1] = 255;
-//      MT_speed[2] = -255;
-//      MT_speed[3] = -255;
+//      MT_speed[0] = 254;
+//      MT_speed[1] = 254;
+//      MT_speed[2] = -254;
+//      MT_speed[3] = -254;
 //    } else if (either_degree == 90 & gyro_speed == 0) {
-//      MT_speed[0] = -255;
-//      MT_speed[1] = 255;
-//      MT_speed[2] = 255;
-//      MT_speed[3] = -255;
+//      MT_speed[0] = -254;
+//      MT_speed[1] = 254;
+//      MT_speed[2] = 254;
+//      MT_speed[3] = -254;
 //    } else if (either_degree == 180 & gyro_speed == 0) {
-//      MT_speed[0] = -255;
-//      MT_speed[1] = -255;
-//      MT_speed[2] = 255;
-//      MT_speed[3] = 255;
+//      MT_speed[0] = -254;
+//      MT_speed[1] = -254;
+//      MT_speed[2] = 254;
+//      MT_speed[3] = 254;
 //    } else if (either_degree == 270 & gyro_speed == 0) {
-//      MT_speed[0] = 255;
-//      MT_speed[1] = -255;
-//      MT_speed[2] = -255;
-//      MT_speed[3] = 255;
+//      MT_speed[0] = 254;
+//      MT_speed[1] = -254;
+//      MT_speed[2] = -254;
+//      MT_speed[3] = 254;
 //    }
 
     for (id = 0; id <= 3; id++)

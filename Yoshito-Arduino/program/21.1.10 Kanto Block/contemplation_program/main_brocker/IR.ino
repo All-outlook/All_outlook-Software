@@ -38,6 +38,7 @@ int F_go_forward(int IR) {
   cur_IR_degree = IR;
   if (0 <= abs(cur_IR_value - pre_IR_value) & abs(cur_IR_value - pre_IR_value) <= 10) {
     IR_count ++;
+  } else if(cur_IR_degree == 0 | pre_IR_degree == 0){
   } else {
     IR_count = 0;
   }

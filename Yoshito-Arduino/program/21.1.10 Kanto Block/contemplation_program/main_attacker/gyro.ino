@@ -21,11 +21,11 @@ int F_attitude_control(int gyro)
   }
   else if (5 < gyro & gyro <= 180)
   {
-    gyro_attitude = map(gyro, 5, 180, 100, 200);
+    gyro_attitude = map(gyro, 5, 180, 40, 254);
   }
   else if (180 < gyro & gyro <= 355)
   {
-    gyro_attitude = map(gyro, 180, 355, -200, -100);
+    gyro_attitude = map(gyro, 180, 355, -254, -40);
   }
   else
   {

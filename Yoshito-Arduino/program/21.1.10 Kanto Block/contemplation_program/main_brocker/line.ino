@@ -3,9 +3,9 @@ const int LINE_TX = 49;
 SoftwareSerialParity line_Serial(LINE_RX, LINE_TX);  // rx,tx
 
 int LINESerial;
-int current_value;
 int previous_value;
 int false_cur_degree;
+int current_value;
 int false_digits;
 unsigned long line_time;
 int cur_degree;
