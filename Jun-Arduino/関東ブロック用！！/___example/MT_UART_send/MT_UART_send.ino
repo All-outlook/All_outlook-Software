@@ -15,21 +15,12 @@ void loop() {
     delay(10);
   }
 
-  //    for (int i = 0; i < 1; i++) {
-  //      kurukuru(in, in, in, in);
-  //      delay(1);
-  //    }
-
   for (int id = 0; id < 80; id++) {
     int i = 254;
     kurukuru(i, i, -i, -i);
     delay(10);
   }
 
-  //    for (int i = 0; i < 1; i++) {
-  //      kurukuru(in, in, in, in);
-  //      delay(1);
-  //    }
 
 }
 

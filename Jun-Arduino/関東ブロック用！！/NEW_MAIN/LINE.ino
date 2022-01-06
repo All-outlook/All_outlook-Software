@@ -3,7 +3,7 @@
 #include <SoftwareSerial.h>
 //const int LINE_SS_PIN = 57;
 
-SoftwareSerial LINE_Serial(68, 49); //rx,tx
+SoftwareSerial LINE_Serial(66, 69); //rx,tx
 
 void F_LINE_setup() {
   LINE_Serial.begin(38400);

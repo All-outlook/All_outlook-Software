@@ -37,6 +37,9 @@ Serial_error:
   if (IR_recive > 30) {
     goto Serial_error;
   }
+  Serial.print("__");
+  Serial.print(IR_recive);
+  Serial.print("__");
 
   /*
     //SPI受信*******************************************************
