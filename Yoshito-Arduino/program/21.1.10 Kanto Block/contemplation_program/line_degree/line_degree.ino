@@ -1,10 +1,10 @@
-#include <SoftwareSerialParity.h>
+#include <SoftwareSerial.h>
 #include <Adafruit_NeoPixel.h>
 const int A_PIN = 2;
 const int B_PIN = 3;
 const int C_PIN = 4;
 const int AMP_PIN[] = {A0, A1, A2, A3}; //AMP = Analog Multi Plexor
-SoftwareSerialParity LINESerial(7, 10); //rx,tx
+SoftwareSerial LINESerial(10, 11); //rx,tx
 
 const int LED_PIN = 5;
 const int C_LED_count = 32;
