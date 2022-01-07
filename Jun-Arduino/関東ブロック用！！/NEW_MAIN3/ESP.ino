@@ -17,7 +17,7 @@ int controller_switch;
 
 
 void F_ESP_setup() {
-  Serial1.begin( 115200 );
+  Serial.begin( 115200 );
 }
 
 int F_ESP_angle(){
@@ -36,8 +36,8 @@ int F_ESP_switch(){
 
 int pre_controller_switch = 0;
 void F_ESP_read() {
-  if ( Serial1.available() ) {
-    String str = Serial1.readStringUntil('#');
+  if ( Serial.available() ) {
+    String str = Serial.readStringUntil('#');
 //    Serial.println(str);
     long value = str.toInt();
 

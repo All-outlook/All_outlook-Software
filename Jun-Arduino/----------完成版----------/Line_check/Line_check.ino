@@ -17,7 +17,7 @@ SoftwareSerial LINESerial(7, 10); //rx,tx
 
 
 void setup() {
-  Serial.begin(38400);
+  Serial.begin(115200);
   LINESerial.begin(38400);
   pinMode(10,OUTPUT);
   F_line_setup();

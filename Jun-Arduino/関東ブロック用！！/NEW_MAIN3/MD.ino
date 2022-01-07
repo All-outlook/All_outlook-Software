@@ -1,7 +1,7 @@
 #include <SoftwareSerial.h>
 
-SoftwareSerial MT_R_Serial(-1, 53);//rx,tx
-SoftwareSerial MT_L_Serial(-1, 58);//rx,tx
+SoftwareSerial MT_R_Serial(42, 53);//rx,tx
+SoftwareSerial MT_L_Serial(45, 58);//rx,tx
 
 const int MOTOR_DEG[] = {45, 135, 225, 315}; // モーター配置角度
 int out_speed[4];//出力値

@@ -23,7 +23,7 @@ SoftwareSerial LINESerial(10, 11); //rx,tx
 
 void setup() {
   Serial.begin(115200);
-  LINESerial.begin(9600);
+  LINESerial.begin(38400);
   pinMode(10, OUTPUT);
   F_line_setup();
 
@@ -36,7 +36,6 @@ float angle_time;
 void loop() {
   F_time_read();
   F_pixle_setup(250, 1, 1);
-  //  F_pixle_setup(0, 0, 0);
 
   for (int id = 0; id <= 7; id++) {
     F_line_choice(id);
@@ -56,10 +55,8 @@ void loop() {
     if (best_value == line_value[id]) {
       best_id = id;
     }
-    //    Serial.print(line_value[id]);
-    //    Serial.print(":");
   }
-  //  Serial.println();
+  
 
   if (angle_time == 0) {
     if (best_value >= C_BORDER_WHITE_LINE) {
@@ -74,15 +71,8 @@ void loop() {
     angle_time = 0;
   }
 
-  //  if(angle_time != 0){
-  //    Serial.print(":");
-  //  }
-  //
-  //  Serial.println(go_angle);
 
-  if ((go_angle == 28 || go_angle == 4) || go_angle == 12 ) {
-    go_angle += 1;
-  }
+
   LINESerial.write(go_angle);
   LINESerial.flush();
   Serial.println(go_angle);

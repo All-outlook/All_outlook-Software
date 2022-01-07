@@ -1,7 +1,7 @@
 void setup() {
   all_reset();
   //↑リセットします！！！！
-  Serial.begin(115200);
+//  Serial.begin(115200);
 
 
   F_MD_setup();
