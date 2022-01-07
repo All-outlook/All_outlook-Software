@@ -1,24 +1,18 @@
-#define SERIAL_8E1 0x26
+void setup() {
+  // put your setup code here, to run once:
 
-int gyro_attitude;
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+}
 int cur_line_value;
 int pre_line_value;
 int gyro_digits;
 unsigned long gyro_time = 0;
 
-int F_gyro_serial()
-{
-  int i;
-  while (Serial2.available() > 1) {
-    int g = Serial2.read();
-  }
-  if (Serial2.available()) {
-    i = Serial2.read() * 2;
-  }
-  return i;
-}
-
-int F_gyro_tilt(int line, int gyro) {
+int F_gyro_tilt(int gyro, int line) {
   cur_line_value = line;
   if ( cur_line_value == 0 & 58 <= pre_line_value & pre_line_value < 113) {
     gyro_digits = 1;
@@ -94,9 +88,8 @@ int F_attitude_control(int gyro, int tilt)
     {
       gyro_attitude = map(gyro, 0, 20, -60, -40);
     } else {
-      gyro_attitude = 0;
+      gyrp_attitude = 0;
     }
-  }
 
-  return gyro_attitude;
-}
+    return gyro_attitude;
+  }

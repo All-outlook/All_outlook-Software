@@ -1,10 +1,9 @@
-const int KICKER_INSULATION = 9;
+const int KICKER_INSULATION = 62;
 const int KICKER_PIN = 11;
-const int CAPTURE_LED = 12;
+const int LASER_PIN = 12;
 const int CAPTURE_PIN[] = {A7, A8};
 
 const int C_capture_threshold[] = {100, 10};
-const int C_LED_count = 2;
 char capture_number[] = {'A', 'B'};
 int capture_value[2];
 int capture_digits[2];
@@ -12,20 +11,13 @@ int kicker_shoot = 0;
 int kicker_digits;
 unsigned long previousMicros = 0;
 unsigned long kicker_time = 0;
-Adafruit_NeoPixel pixels(C_LED_count, CAPTURE_LED, NEO_GRB + NEO_KHZ800);
 
 void F_kicker_setup()
 {
   pinMode(KICKER_PIN, OUTPUT);
   pinMode(KICKER_INSULATION, OUTPUT);
-  pixels.begin();
-  for (id = 0; id <= 1; id++)
-  {
-    pinMode(CAPTURE_PIN[id], INPUT);
-    pixels.setPixelColor(id, pixels.Color(10, 10, 10));
-    //    pixels.setPixelColor(id, pixels.Color(0, 0, 0));
-    pixels.show();
-  }
+  pinMode(LASER_PIN, OUTPUT);
+  digitalWrite(LASER_PIN, HIGH);
 }
 
 void F_kicker()
