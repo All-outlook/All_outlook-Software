@@ -12,7 +12,7 @@ const int LED[] = {2, 3, 4};
 
 void setup() {
   Serial.begin(115200);
-  mySerial.begin(38400);
+  mySerial.begin(9600);
   pinMode(8, INPUT);
 
   for (int i = 0; i < 2; i++) {

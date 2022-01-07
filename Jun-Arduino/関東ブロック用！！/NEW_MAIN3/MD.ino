@@ -98,14 +98,13 @@ void F_MD_setup() {
   pinMode(58, OUTPUT);
 
 
-    MT_R_Serial.begin(38400);
-    MT_L_Serial.begin(38400);
+  MT_R_Serial.begin(38400);
+  MT_L_Serial.begin(38400);
 }
 
 
 void F_speed_send(int id , int mySpeed) {
   if (id == 0 || id == 1) {
-//    MT_R_Serial.begin(38400);
     if (mySpeed == -1) {
       //ブレーキ 0
       MT_R_Serial.write(0 + id);
@@ -121,9 +120,7 @@ void F_speed_send(int id , int mySpeed) {
       //ストップ 30
       MT_R_Serial.write(30 + id);
     }
-//    MT_R_Serial.end();
   } else if (id == 2 || id == 3) {
-//    MT_L_Serial.begin(38400);
     if (mySpeed == -1) {
       //ブレーキ 0
       MT_L_Serial.write(0 + id);
@@ -139,6 +136,5 @@ void F_speed_send(int id , int mySpeed) {
       //ストップ 30
       MT_L_Serial.write(30 + id);
     }
-//    MT_L_Serial.end();
   }
 }
