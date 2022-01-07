@@ -17,7 +17,7 @@ int F_IR_serial()
 int F_wrap_degree(int IR)
 {
   if (350 <= IR & IR <= 360 | 0 < IR & IR < 10) {
-    IR_wrap = 0;
+    IR_wrap = 360;
   } else if (10 <= IR & IR < 180) {
     IR_wrap = IR + 35;
   } else if (180 <= IR & IR < 350) {

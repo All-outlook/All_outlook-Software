@@ -8,14 +8,19 @@
 int id;
 int gyro_degree;
 int gyro_speed;
+int gyro_tilt;
 int IR_degree;
 int IR_value;
+int IR_digits;
 int IR_another;
 int line_digits;
 int line_degree;
 int line_another;
 int either_degree;
 int either_speed[4];
+int more;
+float ratio;
+const float power = 254.0;
 char MT_number[] = {'A', 'B', 'C', 'D'};
 int MT_speed[4];
 int MT_rotate[4];
@@ -48,7 +53,11 @@ void loop()
     Serial.print('g');
     Serial.print(gyro_degree);
     Serial.print(",");
-    gyro_speed = F_attitude_control(gyro_degree);
+    gyro_tilt = F_gyro_tilt(gyro_degree, line_digits);
+    Serial.print('t');
+    Serial.print(gyro_tilt);
+    Serial.print(",");
+    gyro_speed = F_attitude_control(gyro_degree, gyro_tilt);
     Serial.print('a');
     Serial.print(gyro_speed);
     Serial.print(",");
@@ -89,7 +98,7 @@ void loop()
       }
       else if (line_another == 0 & IR_another != 0)
       {
-        either_degree = another;
+        either_degree = IR_another;
       }
       else if (line_another == 0 & IR_another == 0)
       {
@@ -151,29 +160,12 @@ void loop()
       }
     }
 
-
-    //    if (either_degree == 360 & gyro_speed == 0) {
-    //      MT_speed[0] = 255;
-    //      MT_speed[1] = 255;
-    //      MT_speed[2] = -255;
-    //      MT_speed[3] = -255;
-    //    } else if (either_degree == 90 & gyro_speed == 0) {
-    //      MT_speed[0] = -255;
-    //      MT_speed[1] = 255;
-    //      MT_speed[2] = 255;
-    //      MT_speed[3] = -255;
-    //    } else if (either_degree == 180 & gyro_speed == 0) {
-    //      MT_speed[0] = -255;
-    //      MT_speed[1] = -255;
-    //      MT_speed[2] = 255;
-    //      MT_speed[3] = 255;
-    //    } else if (either_degree == 270 & gyro_speed == 0) {
-    //      MT_speed[0] = 255;
-    //      MT_speed[1] = -255;
-    //      MT_speed[2] = -255;
-    //      MT_speed[3] = 255;
-    //    }
-
+    more = 0;
+    for (id = 0; id <= 3; id++) {
+      more = max(more, abs(MT_speed[id]));
+    }
+    ratio = power / more;
+    
     for (id = 0; id <= 3; id++)
     {
       if (MT_speed[id] > 0)
@@ -208,14 +200,7 @@ void loop()
         MT_stop_time[id] = 0;
       }
 
-      if (1 <= MT_speed[id] & MT_speed[id] <= 100)
-      {
-        MT_speed[id] = 100;
-      }
-      else if (-100 <= MT_speed[id] && MT_speed[id] <= -1)
-      {
-        MT_speed[id] = -100;
-      }
+      MT_speed[id] = F_max_speed(ratio, MT_speed[id]);
 
       Serial.print(MT_number[id]);
       if (MT_rest[id] == 0)

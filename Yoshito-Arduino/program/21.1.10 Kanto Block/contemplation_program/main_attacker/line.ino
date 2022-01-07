@@ -12,7 +12,6 @@ int current_degree;
 int previous_degree;
 int line_count;
 unsigned long line_time = 0;
-int return_degree;
 int degree;
 
 int F_line_serial()

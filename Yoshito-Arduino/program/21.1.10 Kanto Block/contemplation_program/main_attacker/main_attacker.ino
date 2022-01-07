@@ -14,6 +14,9 @@ int line_digits;
 int line_degree;
 int either_degree;
 int either_speed[4];
+int more;
+float ratio;
+const float power = 254.0;
 char MT_number[] = {'A', 'B', 'C', 'D'};
 int MT_speed[4];
 int MT_rotate[4];
@@ -55,7 +58,7 @@ void loop()
     Serial.print('i');
     Serial.print(IR_value);
     Serial.print(",");
-    IR_degree = F_go_forward(IR_value);
+    IR_degree = F_wrap_degree(IR_value);
     Serial.print('w');
     Serial.print(IR_degree);
     Serial.print(",");
@@ -64,7 +67,7 @@ void loop()
     Serial.print('l');
     Serial.print(line_digits);
     Serial.print(",");
-    line_degree = F_line_avoid(line_digits);
+    ine_degree = F_line_avoid(line_digits, IR_value);
     Serial.print('s');
     Serial.print(line_degree);
     Serial.print(",");
@@ -122,27 +125,11 @@ void loop()
       }
     }
 
-//    if (either_degree == 360 & gyro_speed == 0) {
-//      MT_speed[0] = 254;
-//      MT_speed[1] = 254;
-//      MT_speed[2] = -254;
-//      MT_speed[3] = -254;
-//    } else if (either_degree == 90 & gyro_speed == 0) {
-//      MT_speed[0] = -254;
-//      MT_speed[1] = 254;
-//      MT_speed[2] = 254;
-//      MT_speed[3] = -254;
-//    } else if (either_degree == 180 & gyro_speed == 0) {
-//      MT_speed[0] = -254;
-//      MT_speed[1] = -254;
-//      MT_speed[2] = 254;
-//      MT_speed[3] = 254;
-//    } else if (either_degree == 270 & gyro_speed == 0) {
-//      MT_speed[0] = 254;
-//      MT_speed[1] = -254;
-//      MT_speed[2] = -254;
-//      MT_speed[3] = 254;
-//    }
+    more = 0;
+    for (id = 0; id <= 3; id++) {
+      more = max(more, abs(MT_speed[id]));
+    }
+    ratio = power / more;
 
     for (id = 0; id <= 3; id++)
     {
@@ -178,14 +165,7 @@ void loop()
         MT_stop_time[id] = 0;
       }
 
-      if (1 <= MT_speed[id] & MT_speed[id] <= 100)
-      {
-        MT_speed[id] = 100;
-      }
-      else if (-100 <= MT_speed[id] && MT_speed[id] <= -1)
-      {
-        MT_speed[id] = -100;
-      }
+      MT_speed[id] = F_max_speed(ratio, MT_speed[id]);
 
       Serial.print(MT_number[id]);
       if (MT_rest[id] == 0)
@@ -234,12 +214,4 @@ void loop()
     pre_MT_rotate[id] = MT_rotate[id];
   }
   Serial.println();
-}void setup() {
-  // put your setup code here, to run once:
-
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
-
 }
