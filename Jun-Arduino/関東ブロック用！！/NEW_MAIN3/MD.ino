@@ -6,6 +6,17 @@ SoftwareSerial MT_L_Serial(45, 58);//rx,tx
 const int MOTOR_DEG[] = {45, 135, 225, 315}; // モーター配置角度
 int out_speed[4];//出力値
 
+void F_MD_debug(){
+  Serial.print("  0:");
+  Serial.print(out_speed[0]);
+  Serial.print(" 1:");
+  Serial.print(out_speed[1]);
+  Serial.print(" 2:");
+  Serial.print(out_speed[2]);
+  Serial.print(" 3:");
+  Serial.print(out_speed[3]);
+}
+
 void F_MD_rotate(int LINEIR, int GYRO, int SPEED) {
   /*
     LINEIR 進行角度(0:無動作,1-360:進む)
@@ -16,18 +27,11 @@ void F_MD_rotate(int LINEIR, int GYRO, int SPEED) {
     //何入れるか決める
     int gyro_speed = F_MD_gyro(GYRO, SPEED);
     int lineIr_speed = F_MD_lineIr(LINEIR, MOTOR_DEG[i], SPEED);
-    //    Serial.print(gyro_speed);
-    //    Serial.print(',');
-    //    Serial.println(lineIr_speed);
 
-
-    out_speed[i] = gyro_speed * 1 + lineIr_speed * 1;
-
+    out_speed[i] = gyro_speed * 0.6 + lineIr_speed * 1;
   }
 
-
   for (int i = 0; i < 4; i++) {
-
     if (out_speed[i] == 0) {
       out_speed[i] = 0;
     } else if (out_speed[i] > 0) {
@@ -35,61 +39,9 @@ void F_MD_rotate(int LINEIR, int GYRO, int SPEED) {
     } else if (out_speed[i] < 0) {
       out_speed[i] = constrain(out_speed[i], -254, -40);
     }
-
-    F_speed_send(i, out_speed[i]);
-    //    Serial.print(i);
-    //    Serial.print(':');
-    //    Serial.print(out_speed[i]);
-    //    Serial.print(' ');
+    F_speed_send(i, out_speed[i]); 
   }
-  //  Serial.println();
 }
-
-
-int F_MD_lineIr(int lineIr_deg, int MT_deg, int myspeed) {
-  /*
-    返り値：0-254
-  */
-  int pwm_val = 0;
-
-  if (lineIr_deg != 0) {
-    int sine_angle = MT_deg - lineIr_deg;
-    pwm_val = myspeed *  sin(sine_angle * PI / 180);
-
-  } else {
-    pwm_val = 0;
-  }
-
-  return pwm_val;
-}
-
-int F_MD_gyro(int gyro_deg, int myspeed) {
-  /*
-    返り値：80-250
-    それぞれのモーターごとに計算してね！！
-  */
-  int pwm_val = 0;
-  myspeed = 254;
-  if (gyro_deg != 0) {
-    if (3 <= gyro_deg && gyro_deg <= 180) {
-      //左回り
-      pwm_val = map(gyro_deg, 3, 180, 40, myspeed);
-
-    } else if (180 <= gyro_deg && gyro_deg <= 357) {
-      //右回り
-      pwm_val = map(gyro_deg, 357, 180, -40, -myspeed);
-
-    } else {
-      //回らない
-      pwm_val = 0;
-    }
-  } else {
-    pwm_val = 0;
-  }
-
-  return pwm_val;
-}
-
 
 void F_MD_setup() {
   pinMode(42, INPUT);
@@ -137,4 +89,48 @@ void F_speed_send(int id , int mySpeed) {
       MT_L_Serial.write(30 + id);
     }
   }
+}
+
+
+
+//-----------------------------------------------
+
+
+int F_MD_lineIr(int lineIr_deg, int MT_deg, int myspeed) {
+  /*
+    返り値：0-254
+  */
+  int pwm_val = 0;
+  if (lineIr_deg != 0) {
+    int sine_angle = MT_deg - lineIr_deg;
+    pwm_val = myspeed *  sin(sine_angle * PI / 180);
+  } else {
+    pwm_val = 0;
+  }
+  return pwm_val;
+}
+
+
+int F_MD_gyro(int gyro_deg, int myspeed) {
+  /*
+    返り値：80-250
+    それぞれのモーターごとに計算してね！！
+  */
+  int pwm_val = 0;
+  myspeed = 254;
+  if (gyro_deg != 0) {
+    if (4 <= gyro_deg && gyro_deg <= 180) {
+      //左回り
+      pwm_val = map(gyro_deg, 4, 180, 40, myspeed);
+    } else if (180 <= gyro_deg && gyro_deg <= 356) {
+      //右回り
+      pwm_val = map(gyro_deg, 356, 180, -40, -myspeed);
+    } else {
+      //回らない
+      pwm_val = 0;
+    }
+  } else {
+    pwm_val = 0;
+  }
+  return pwm_val;
 }
