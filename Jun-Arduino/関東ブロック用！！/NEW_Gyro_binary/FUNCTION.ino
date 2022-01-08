@@ -48,11 +48,11 @@ int GyroGet() {
 void Gryo_Start() {
   mpu.initialize();
   if (mpu.testConnection() != true) {
-    Serial.println("MPU disconection");
+//    Serial.println("MPU disconection");
     while (true) {}
   }
   if (mpu.dmpInitialize() != 0) {
-    Serial.println("MPU break");
+//    Serial.println("MPU break");
     while (true) {}
   }
   mpu.setXGyroOffset(Gyro_X);

@@ -7,7 +7,8 @@ const int GYRO_SWITCH = 4;
 const int LED_CIRCLE[] = {5, 6, 7, 8, 9, 10, 11, 12};
 
 void setup() {
-  Serial.begin(38400 ,SERIAL_8E1);
+  Serial.begin(115200);
+//  Serial.begin(38400 ,SERIAL_8E1);
   Wire.begin();
 
   pinSetup();
@@ -49,5 +50,5 @@ void loop() {
 
   LED_shine(Gyro_degree);
   Serial.write(Gyro_degree / 2);
-  Serial.flush();
+//  Serial.flush();
 }
