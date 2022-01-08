@@ -6,8 +6,8 @@ const int MT_angle[] = {45, 135, 225, 315};
 int IL_speed;
 int theta;
 
-int F_MT_Il_speed(int id, int either, int gyro) {
-  theta = MT_angle[id] - either - gyro;
+int F_MT_Il_speed(int id, int either) {
+  theta = MT_angle[id] - either;
   IL_speed = sin(theta * PI / 180) * power;
   return IL_speed;
 }

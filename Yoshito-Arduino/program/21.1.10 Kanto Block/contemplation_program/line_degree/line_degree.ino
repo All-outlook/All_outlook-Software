@@ -16,20 +16,20 @@ const int C_line_threshold = 500;
 int line_digits[32];
 int line_min[32];
 int line_max[32];
-int smallest;
-int biggest;
+float smallest = 0.0;
+float biggest = 0.0;
 int line_degree;
 
 void setup() {
   Serial.begin(115200);
-  LINESerial.begin(38400, ODD);
+  LINESerial.begin(38400);
   pinMode(10, OUTPUT);
   F_AMP_setup();
   F_LED_setup(60, 60, 60);
 }
 
 void loop() {
-  
+
   F_LED_loop(128, 1, 1);
   for (int id = 0; id <= 7; id++) {
     F_line_choice(id);
@@ -79,11 +79,11 @@ void loop() {
   float line_value;
   if (biggest - smallest > 16) {
     line_value = (biggest + smallest) / 2 + 16;
-  } else if (0 < biggest - smallest & biggest - smallest <= 16) {
-    line_value = (biggest + smallest) / 2;
     if (line_value <= 32) {
       line_value -= 32;
     }
+  } else if (0 < biggest - smallest & biggest - smallest <= 16) {
+    line_value = (biggest + smallest) / 2;
   } else if (biggest == 0 & smallest == 31) {
     line_value = -1;
   }

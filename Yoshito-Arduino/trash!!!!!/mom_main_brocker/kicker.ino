@@ -4,7 +4,6 @@ const int LASER_PIN = 12;
 const int CAPTURE_PIN[] = {A7, A8};
 
 const int C_capture_threshold[] = {100, 10};
-char capture_number[] = {'A', 'B'};
 int capture_value[2];
 int capture_digits[2];
 int kicker_shoot = 0;
@@ -25,7 +24,7 @@ void F_kicker()
   for (id = 0; id <= 1; id++)
   {
     capture_value[id] = analogRead(CAPTURE_PIN[id]);
-    if (C_capture_threshold[id] < capture_value[id])
+    if (C_capture_threshold[id] <= capture_value[id])
     {
       capture_digits[id] = 1;
     }
@@ -34,7 +33,6 @@ void F_kicker()
       capture_digits[id] = 0;
     }
     /*Serial.print('d');
-      Serial.print(capture_number[id]);
       Serial.print(capture_digits[id]);
       Serial.print(",");*/
   }

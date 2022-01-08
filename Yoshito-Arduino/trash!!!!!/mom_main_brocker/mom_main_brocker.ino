@@ -127,7 +127,7 @@ void loop()
     {
       for (id = 0; id <= 3; id++)
       {
-        either_speed[id] = F_MT_Il_speed(id, either_degree, gyro_degree);
+        either_speed[id] = F_MT_Il_speed(id, either_degree);
       }
       for (id = 0; id <= 3; id++)
       {
@@ -138,7 +138,7 @@ void loop()
     {
       for (id = 0; id <= 3; id++)
       {
-        either_speed[id] = F_MT_Il_speed(id, either_degree, gyro_degree);
+        either_speed[id] = F_MT_Il_speed(id, either_degree);
       }
       for (id = 0; id <= 3; id++)
       {
