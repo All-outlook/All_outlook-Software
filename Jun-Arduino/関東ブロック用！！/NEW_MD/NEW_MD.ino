@@ -11,8 +11,8 @@ const int M_LED_B[] = {16, 17};
 const int LED[] = {2, 3, 4};
 
 void setup() {
-  Serial.begin(115200);
-  mySerial.begin(38400);
+//  Serial.begin(115200);
+  mySerial.begin(57600);
   pinMode(8, INPUT);
 
   for (int i = 0; i < 2; i++) {
@@ -33,7 +33,7 @@ int myspeed = 40;
 void loop() {
   if (mySerial.available()) {
     int knob = mySerial.read();
-    Serial.println(knob);
+//    Serial.println(knob);
 
     if (knob < 35) {
       id = knob % 10;
