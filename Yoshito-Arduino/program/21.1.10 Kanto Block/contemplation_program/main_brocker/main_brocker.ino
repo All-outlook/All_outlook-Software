@@ -27,9 +27,13 @@ int kicker_value;
 
 void setup()
 {
+  Serial.begin(115200);
   F_switch_setup();
-  F_LED_setuo();
-  F_serial_setup();
+  F_LED_setup();
+  F_MD_setup();
+  F_IR_setup();
+  F_GYRO_setup();
+  F_LINE_setup();
   F_flame_setup();
   F_kicker_setup();
   F_reset_setup();
@@ -39,49 +43,52 @@ void setup()
 void loop()
 {
   F_time_read();
+  F_GYRO_read();
+  F_IR_read();
+  F_LINE_read();
 
   if (F_switch_value() == 0)
   {
     F_LED_turnon() ;
 
-    gyro_degree = F_gyro_serial();
-    Serial.print('g');
-    Serial.print(gyro_degree);
-    Serial.print(",");
-    gyro_tilt = F_gyro_tilt(gyro_degree, line_digits);
-    Serial.print('t');
-    Serial.print(gyro_tilt);
-    Serial.print(",");
-    gyro_speed = F_attitude_control(gyro_degree, gyro_tilt);
-    Serial.print('a');
-    Serial.print(gyro_speed);
-    Serial.print(", ");
+    gyro_degree = F_GYRO_get();
+    //    Serial.print('g');
+    //    Serial.print(gyro_degree);
+    //    Serial.print(",");
+    //    gyro_tilt = F_gyro_tilt(gyro_degree, line_digits);
+    //    Serial.print('t');
+    //    Serial.print(gyro_tilt);
+    //    Serial.print(",");
+    //    gyro_speed = F_attitude_control(gyro_degree, gyro_tilt);
+    //    Serial.print('a');
+    //    Serial.print(gyro_speed);
+    //    Serial.print(", ");
 
-    IR_value = F_IR_serial();
-    Serial.print('i');
-    Serial.print(IR_value);
-    Serial.print(",");
+    IR_value = F_IR_get();
+    //    Serial.print('i');
+    //    Serial.print(IR_value);
+    //    Serial.print(",");
     IR_degree = F_shed_degree(IR_value);
-    Serial.print('s');
-    Serial.print(IR_degree);
-    Serial.print(",");
+    //    Serial.print('s');
+    //    Serial.print(IR_degree);
+    //    Serial.print(",");
     IR_another = F_go_forward(IR_value);
-    Serial.print('f');
-    Serial.print(IR_another);
-    Serial.print(", ");
+    //    Serial.print('f');
+    //    Serial.print(IR_another);
+    //    Serial.print(", ");
 
-    line_digits = F_line_serial();
-    Serial.print('l');
-    Serial.print(line_digits);
-    Serial.print(",");
+    line_digits = F_LINE_get();
+    //    Serial.print('l');
+    //    Serial.print(line_digits);
+    //    Serial.print(",");
     line_degree = F_line_avoid(line_digits);
-    Serial.print('s');
-    Serial.print(line_degree);
-    Serial.print(",");
+        Serial.print('s');
+        Serial.print(line_degree);
+        Serial.print(",");
     line_another = F_just_pulled(line_digits);
-    Serial.print('j');
-    Serial.print(line_another);
-    Serial.print(", ");
+    //    Serial.print('j');
+    //    Serial.print(line_another);
+    //    Serial.print(", ");
 
     if (IR_digits == 1) {
       either_degree = IR_another;
@@ -117,57 +124,15 @@ void loop()
     //    Serial.print("e");
     //    Serial.print(either_degree);
     //    Serial.print(",");
+    
+    int Speeeed;
+    if (either_degree == 90 | either_degree == 270) {
+      Speeeed = 254;
+    } else {
+      Speeeed = 150;
+    }
+    F_MD_rotate(either_degree, gyro_degree, Speeeed);
 
-    if (either_degree != 0 & gyro_speed <= -100 | either_degree != 0 & 100 <= gyro_speed)
-    {
-      for (id = 0; id <= 3; id++)
-      {
-        either_speed[id] = F_MT_Il_speed(id, either_degree);
-      }
-      for (id = 0; id <= 3; id++)
-      {
-        MT_speed[id] = (either_speed[id] * 0.7) + (gyro_speed * 0.3);
-      }
-    }
-    else if (either_degree != 0 & -100 < gyro_speed & gyro_speed < 100)
-    {
-      for (id = 0; id <= 3; id++)
-      {
-        either_speed[id] = F_MT_Il_speed(id, either_degree);
-      }
-      for (id = 0; id <= 3; id++)
-      {
-        MT_speed[id] = either_speed[id];
-      }
-    }
-    else if (either_degree == 0 & gyro_speed <= -100 | either_degree == 0 & 100 <= gyro_speed)
-    {
-      for (id = 0; id <= 3; id++)
-      {
-        MT_speed[id] = gyro_speed;
-      }
-    }
-    else if (either_degree == 0 & -100 < gyro_speed & gyro_speed < 100)
-    {
-      for (id = 0; id <= 3; id++)
-      {
-        MT_speed[id] = 0;
-      }
-    }
-
-    more = 0;
-    for (id = 0; id <= 3; id++) {
-      more = max(more, abs(MT_speed[id]));
-    }
-    ratio = power / more;
-
-    for (id = 0; id <= 3; id++) {
-      MT_speed[id] = F_max_speed(ratio, MT_speed[id]);
-      Serial.print(MT_number[id]);
-      Serial.print(MT_speed[id]);
-      Serial.print(",");
-      F_speed_send(id, MT_speed[id]);
-    }
     F_kicker();
   }
   else
@@ -175,7 +140,7 @@ void loop()
     Serial.print("OFF");
     for (id = 0; id <= 3; id++);
     {
-      F_speed_send(id, 40);
+      F_speed_send(id, 0);
     }
     F_LED_turnon();
   }

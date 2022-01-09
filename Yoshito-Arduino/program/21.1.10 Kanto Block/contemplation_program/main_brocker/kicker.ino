@@ -44,10 +44,10 @@ void F_kicker()
     capture_digits = 0;
   }
 
-  if (capture_digits == 1 & (F_time_get() - previousMicros) >= 5000000)
+  if (capture_digits == 1 & (F_time_get() - previousMicros) >= 500000)
   { //1secons
     previousMicros = F_time_get();
-    kicker_time = F_time_goal(1000);
+    kicker_time = F_time_goal(100);
   }
   else
   {

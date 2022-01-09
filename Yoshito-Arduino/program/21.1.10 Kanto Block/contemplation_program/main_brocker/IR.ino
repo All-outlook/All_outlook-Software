@@ -1,20 +1,27 @@
 const int IR_RX = 66;
 
+int IR_receive = 0;
+
 unsigned long IR_count = 0;
 unsigned long forward_time = 0;
 unsigned long wrap_time = 0;
 int IR_keep[] = {0, 0, 0, 0, 0};
 
-int F_IR_serial()
-{
-  int IR_serial;
+void F_IR_setup() {
+  Serial3.begin(115200);
+}
+
+void F_IR_read() {
+  while (Serial3.available() > 5) {
+    int g = Serial3.read();
+  }
   if (Serial3.available() > 0) {
-    IR_serial = Serial3.read() * 2;
+    IR_receive = Serial3.read() * 2;
   }
-  if (IR_serial == 0 | IR_serial == -2) {
-    IR_serial = 0;
-  }
-  return IR_serial;
+}
+
+int F_IR_get(){
+  return IR_receive;
 }
 
 int F_shed_degree(int IR)

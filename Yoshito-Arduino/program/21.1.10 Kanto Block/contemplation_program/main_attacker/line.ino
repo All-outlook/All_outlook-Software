@@ -1,3 +1,5 @@
+int LINE_receive;
+
 int LINESerial;
 int current_value;
 int previous_value;
@@ -10,21 +12,22 @@ int line_count;
 unsigned long line_time = 0;
 int degree;
 
-int F_line_serial()
-{
+void F_LINE_setup() {
+  Serial1.begin(38400);
+}
+
+void F_LINE_read() {
+  
+  while (Serial1.available() > 5) {
+    int g = Serial1.read();
+  }
   if (Serial1.available() > 0) {
-    current_value = Serial1.read() * 2;
+    LINE_receive = Serial1.read() * 2;
   }
-  if (current_value > 360) {
-    current_value = 0;
-  }
-  if(current_value == 0 & previous_value != 0){
-    LINESerial = previous_value;
-  } else {
-    LINESerial = current_value;
-  }
-  previous_value = current_value; 
-  return LINESerial;
+}
+
+int F_LINE_get() {
+  return LINE_receive;
 }
 
 int F_line_avoid(int line, int IR)

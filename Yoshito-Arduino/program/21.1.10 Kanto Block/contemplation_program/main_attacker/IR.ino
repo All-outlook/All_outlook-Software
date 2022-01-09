@@ -1,17 +1,25 @@
 const int IR_RX = 66;
 
+int IR_receive = 0;
+
 int IR_serial;
 int IR_wrap;
 
-int F_IR_serial()
-{
+void F_IR_setup() {
+  Serial3.begin(38400);
+}
+
+void F_IR_read() {
+  while (Serial3.available() > 5) {
+    int g = Serial3.read();
+  }
   if (Serial3.available() > 0) {
-    IR_serial = Serial3.read() * 2;
+    IR_receive = Serial3.read() * 2;
   }
-  if (IR_serial == -2) {
-    IR_serial = 0;
-  }
-  return IR_serial;
+}
+
+int F_IR_get(){
+  return IR_receive;
 }
 
 int F_wrap_degree(int IR)

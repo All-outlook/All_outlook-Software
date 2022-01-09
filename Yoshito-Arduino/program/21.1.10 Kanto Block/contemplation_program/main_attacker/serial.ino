@@ -1,11 +1,8 @@
 void F_serial_setup()
 {
   Serial.begin(115200);             // micon to PC
-  Serial1.begin(38400);             //line
-  Serial2.begin(38400, SERIAL_8E1); // gyro
-  Serial3.begin(38400);             // IR
-  MT_R_Serial.begin(38400);
-  MT_L_Serial.begin(38400);
+  MT_R_Serial.begin(57600);
+  MT_L_Serial.begin(57600);
   pinMode(IR_RX, INPUT);
   pinMode(42, INPUT);
   pinMode(53, OUTPUT);

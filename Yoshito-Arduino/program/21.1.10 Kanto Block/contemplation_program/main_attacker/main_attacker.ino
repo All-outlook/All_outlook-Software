@@ -24,6 +24,9 @@ void setup()
 {
   F_switch_setup();
   F_LED_setuo();
+  F_IR_setup();
+  F_GYRO_setup();
+  F_LINE_setup();
   F_serial_setup();
   F_flame_setup();
   F_kicker_setup();
@@ -34,12 +37,15 @@ void setup()
 void loop()
 {
   F_time_read();
+  F_GYRO_read();
+  F_IR_read();
+  F_LINE_read();
 
   if (F_switch_value() == 0)
   {
     F_LED_turnon() ;
 
-    gyro_degree = F_gyro_serial();
+    gyro_degree = F_GYRO_get();
     Serial.print('g');
     Serial.print(gyro_degree);
     Serial.print(",");
@@ -48,7 +54,7 @@ void loop()
     Serial.print(gyro_speed);
     Serial.print(",");
 
-    IR_value = F_IR_serial();
+    IR_value = F_IR_get();
     Serial.print('i');
     Serial.print(IR_value);
     Serial.print(",");
@@ -57,7 +63,7 @@ void loop()
     Serial.print(IR_degree);
     Serial.print(",");
 
-    line_digits = F_line_serial();
+    line_digits = F_LINE_get();
     Serial.print('l');
     Serial.print(line_digits);
     Serial.print(",");

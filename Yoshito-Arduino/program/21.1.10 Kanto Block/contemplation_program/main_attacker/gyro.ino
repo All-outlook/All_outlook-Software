@@ -1,15 +1,20 @@
-#define SERIAL_8E1 0x26
+int GYRO_receive = 0;
 
-int F_gyro_serial()
-{
-  int i;
+void F_GYRO_setup() {
+  Serial2.begin(115200);
+}
+
+void F_GYRO_read() {
   while (Serial2.available() > 1) {
     int g = Serial2.read();
   }
-  if (Serial2.available()) {
-    i = Serial2.read() * 2;
+  if (Serial2.available() > 0) {
+    GYRO_receive = Serial2.read() * 2;
   }
-  return i;
+}
+
+int F_GYRO_get() {
+  return GYRO_receive;
 }
 
 int F_attitude_control(int gyro)

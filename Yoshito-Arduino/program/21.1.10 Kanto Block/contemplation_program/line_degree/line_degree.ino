@@ -22,7 +22,7 @@ int line_degree;
 
 void setup() {
   Serial.begin(115200);
-  LINESerial.begin(38400);
+  LINESerial.begin(115200);
   pinMode(10, OUTPUT);
   F_AMP_setup();
   F_LED_setup(60, 60, 60);

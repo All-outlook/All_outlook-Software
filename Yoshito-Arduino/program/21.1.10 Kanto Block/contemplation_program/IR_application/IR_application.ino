@@ -21,7 +21,7 @@ int best;
 void setup()
 {
   Serial.begin(115200);
-  IRSerial.begin(38400);
+  IRSerial.begin(115200);
   pinMode(10, OUTPUT);
   for (int id = 0; id <= 2; id++)
   {
