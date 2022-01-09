@@ -47,7 +47,7 @@ void F_kicker()
   if (capture_digits == 1 & (F_time_get() - previousMicros) >= 500000)
   { //1secons
     previousMicros = F_time_get();
-    kicker_time = F_time_goal(100);
+    kicker_time = F_time_goal(300);
   }
   else
   {
