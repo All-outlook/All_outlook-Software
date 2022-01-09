@@ -1,7 +1,7 @@
 //#include <SPI.h>
 #include <SoftwareSerial.h>
 
-#define C_BORDER_WHITE_LINE 700
+#define C_BORDER_WHITE_LINE 450
 //スーパーチーム70
 //練習コート 250
 //試合コート 300
@@ -60,10 +60,10 @@ void loop() {
 
   if (angle_time == 0) {
     if (best_value >= C_BORDER_WHITE_LINE) {
-      go_angle = best_id;
-      angle_time = F_time_goal(50);
+      go_angle = 360 - (best_id * 11.25);
+      angle_time = F_time_goal(100);
     } else {
-      go_angle = 40;
+      go_angle = 0;
     }
   }
 
@@ -73,7 +73,7 @@ void loop() {
 
 
 
-  LINESerial.write(go_angle);
+  LINESerial.write(go_angle /2 );
   LINESerial.flush();
   Serial.println(go_angle);
 }

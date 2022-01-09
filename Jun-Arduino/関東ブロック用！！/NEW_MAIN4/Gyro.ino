@@ -9,7 +9,7 @@ void F_GYRO_read() {
   while (Serial2.available() > 1) {
     int g = Serial2.read();
   }
-  if (Serial2.available()) {
+  if (Serial2.available() > 0) {
     GYRO_receive = Serial2.read() * 2;
   }
 }

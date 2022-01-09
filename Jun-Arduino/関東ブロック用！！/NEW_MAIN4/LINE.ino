@@ -9,7 +9,7 @@ void F_LINE_read() {
   while (Serial1.available() > 5) {
     int g = Serial1.read();
   }
-  if (Serial1.available()) {
+  if (Serial1.available() > 0) {
     LINE_receive = Serial1.read() * 2;
   }
 }
