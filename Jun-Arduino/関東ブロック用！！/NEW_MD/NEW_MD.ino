@@ -11,7 +11,7 @@ const int M_LED_B[] = {16, 17};
 const int LED[] = {2, 3, 4};
 
 void setup() {
-//  Serial.begin(115200);
+  Serial.begin(115200);
   mySerial.begin(57600);
   pinMode(8, INPUT);
 
@@ -24,70 +24,116 @@ void setup() {
   for (int i = 0; i < 3; i++) {
     pinMode(LED[i], OUTPUT);
   }
+
+  start();
 }
 
 int id = 0;
-int rotation = 3;
+int rotation = 1;
+int pre_rotation = 1;
 int myspeed = 40;
 
 void loop() {
+  //  F_time_read();
   if (mySerial.available()) {
     int knob = mySerial.read();
-//    Serial.println(knob);
+    Serial.print(knob);
 
     if (knob < 35) {
       id = knob % 10;
       rotation = knob / 10;
+
+      pre_rotation = rotation;
+
+      Serial.print(" id ");
+      Serial.print(id);
+      Serial.print(" rotation");
+      Serial.print(rotation);
     } else {
       myspeed = knob;
+      Serial.print(" speed");
+      Serial.print(myspeed);
     }
+    Serial.println();
   }
+  //rotationの急速切り替えを防ぐ----------------
+  if ((rotation == 1 && pre_rotation == 2) || (rotation == 2 && pre_rotation == 1)) {
+    rotation = 3;
+  }
+  // ------------------------------------------ -
 
   if (id == 0 || id == 2) {
     //------------------------------------
     if (rotation == 0) {
-      digitalWrite(MOTOR_A[0], 1);
-      digitalWrite(MOTOR_A[1], 1);
-      digitalWrite(M_LED_A[0], 0);
-      digitalWrite(M_LED_A[1], 0);
+      digitalWrite(MOTOR_A[0], LOW);
+      digitalWrite(MOTOR_A[1], LOW);
+      digitalWrite(M_LED_A[0], LOW);
+      digitalWrite(M_LED_A[1], LOW);
+      for (int i = 0; i < 3; i++) {
+        digitalWrite(LED[i], HIGH);
+      }
     } else if (rotation == 1) {
       analogWrite(MOTOR_A[0], myspeed);
-      digitalWrite(MOTOR_A[1], 0);
-      digitalWrite(M_LED_A[0], 1);
-      digitalWrite(M_LED_A[1], 0);
+      digitalWrite(MOTOR_A[1], LOW);
+      digitalWrite(M_LED_A[0], HIGH);
+      digitalWrite(M_LED_A[1], LOW);
+
+      digitalWrite(LED[0], LOW);
+      digitalWrite(LED[1], LOW);
     } else if (rotation == 2) {
-      digitalWrite(MOTOR_A[0], 0);
+      digitalWrite(MOTOR_A[0], LOW);
       analogWrite(MOTOR_A[1], myspeed);
-      digitalWrite(M_LED_A[0], 0);
-      digitalWrite(M_LED_A[1], 1);
+      digitalWrite(M_LED_A[0], LOW);
+      digitalWrite(M_LED_A[1], HIGH);
+
+      digitalWrite(LED[0], LOW);
+      digitalWrite(LED[1], LOW);
     } else if (rotation == 3) {
-      digitalWrite(MOTOR_A[0], 0);
-      digitalWrite(MOTOR_A[1], 0);
-      digitalWrite(M_LED_A[0], 1);
-      digitalWrite(M_LED_A[1], 1);
+      digitalWrite(MOTOR_A[0], LOW);
+      digitalWrite(MOTOR_A[1], LOW);
+      digitalWrite(M_LED_A[0], HIGH);
+      digitalWrite(M_LED_A[1], HIGH);
+
+      digitalWrite(LED[0], HIGH);
+      digitalWrite(LED[1], LOW);
     }
     //------------------------------------
   } else if (id ==  1 || id == 3) {
     if (rotation == 0) {
-      digitalWrite(MOTOR_B[0], 1);
-      digitalWrite(MOTOR_B[1], 1);
-      digitalWrite(M_LED_B[0], 0);
-      digitalWrite(M_LED_B[1], 0);
+      digitalWrite(MOTOR_B[0], LOW);
+      digitalWrite(MOTOR_B[1], LOW);
+      digitalWrite(M_LED_B[0], LOW);
+      digitalWrite(M_LED_B[1], LOW);
+      for (int i = 0; i < 3; i++) {
+        digitalWrite(LED[i], HIGH);
+      }
+
     } else if (rotation == 1) {
       analogWrite(MOTOR_B[0], myspeed);
-      digitalWrite(MOTOR_B[1], 0);
-      digitalWrite(M_LED_B[0], 1);
-      digitalWrite(M_LED_B[1], 0);
+      digitalWrite(MOTOR_B[1], LOW);
+      digitalWrite(M_LED_B[0], HIGH);
+      digitalWrite(M_LED_B[1], LOW);
+
+      digitalWrite(LED[2], LOW);
+      digitalWrite(LED[1], LOW);
+
     } else if (rotation == 2) {
-      digitalWrite(MOTOR_B[0], 0);
+      digitalWrite(MOTOR_B[0], LOW);
       analogWrite(MOTOR_B[1], myspeed);
-      digitalWrite(M_LED_B[0], 0);
-      digitalWrite(M_LED_B[1], 1);
+      digitalWrite(M_LED_B[0], LOW);
+      digitalWrite(M_LED_B[1], HIGH);
+
+      digitalWrite(LED[2], LOW);
+      digitalWrite(LED[1], LOW);
+
     } else if (rotation == 3) {
-      digitalWrite(MOTOR_B[0], 0);
-      digitalWrite(MOTOR_B[1], 0);
-      digitalWrite(M_LED_B[0], 1);
-      digitalWrite(M_LED_B[1], 1);
+      digitalWrite(MOTOR_B[0], LOW);
+      digitalWrite(MOTOR_B[1], LOW);
+      digitalWrite(M_LED_B[0], HIGH);
+      digitalWrite(M_LED_B[1], HIGH);
+
+      digitalWrite(LED[2], HIGH);
+      digitalWrite(LED[1], LOW);
     }
   }
 }

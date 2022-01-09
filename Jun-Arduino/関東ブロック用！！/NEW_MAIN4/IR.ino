@@ -8,7 +8,7 @@ void F_IR_read() {
   while (Serial3.available() > 5) {
     int g = Serial3.read();
   }
-  if (Serial3.available()) {
+  if (Serial3.available() > 0) {
     IR_receive = Serial3.read() * 2;
   }
 }
