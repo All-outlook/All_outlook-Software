@@ -1,7 +1,7 @@
 int LINE_receive;
 
 void F_LINE_setup() {
-  Serial1.begin(38400);
+  Serial1.begin(115200);
 }
 
 void F_LINE_read() {
