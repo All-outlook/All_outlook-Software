@@ -32,12 +32,12 @@ void loop() {
 
     int GYRO_DEGDEG = F_360_correct(F_GYRO_get() - tilt);
     int GO_DEGDEG;
-    if (F_LINE_get() != 0) {
-      GO_DEGDEG = F_360_correct(F_LINE_get() + F_GYRO_get());
-    } else {
-      Serial.print('*');
+//    if (F_LINE_get() != 0) {
+//      GO_DEGDEG = F_360_correct(F_LINE_get() + F_GYRO_get());
+//    } else {
+//      Serial.print('*');
       GO_DEGDEG = F_IR_wrap_around(F_360_correct(F_IR_get() + F_GYRO_get()));
-    }
+//    }
 
     Serial.print(' ');
     Serial.print(GO_DEGDEG);

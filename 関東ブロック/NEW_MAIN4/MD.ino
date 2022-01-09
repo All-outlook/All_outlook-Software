@@ -24,23 +24,31 @@ void F_MD_rotate(int LINEIR, int GYRO, int SPEED) {
     SPEED  加減速(0-254) 進行角度に係る
   */
   int gyro_speed = F_MD_gyro(GYRO, SPEED);
-  int out_speed[4];
-  int sine_power[4];
-  int big_power = 0;
+  int lineIr_speed[4];
+
+  if (LINEIR != 0) {
+    float sine_power[4];
+    float big_power = 0;
+
+    for (int i = 0; i < 4; i++) {
+      int sine_thita = MOTOR_DEG[i] - LINEIR;
+      sine_power[i] = (sin(sine_thita * PI / 180));
+      big_power = max(big_power, abs(sine_power[i]));
+    }
+    float  aaa = 1 / big_power;
+    for (int i = 0; i < 4; i++) {
+      lineIr_speed[i] = ((sine_power[i] * aaa)) * SPEED;
+    }
+  }else{
+    for (int i = 0; i < 4; i++) {
+      lineIr_speed[i] = 0;
+    }
+  }
+
 
   for (int i = 0; i < 4; i++) {
-    int sine_thita = MOTOR_DEG[i] - LINEIR;
-    sine_power[i] = (sin(sine_thita * PI / 180)) * 1000;
-    big_power = max(big_power, sine_power[i]);
+    out_speed[i] = gyro_speed * 0.6 + lineIr_speed[i] * 1;
   }
-  int  aaa = 1000 / big_power;
-
-  for (int i = 0; i < 4; i++) {
-    int go = (sine_power[i] * aaa) * SPEED;
-    out_speed[i] = gyro_speed * 0 + go * 1;
-  }
-
-
 
   for (int i = 0; i < 4; i++) {
     if (out_speed[i] == 0) {
