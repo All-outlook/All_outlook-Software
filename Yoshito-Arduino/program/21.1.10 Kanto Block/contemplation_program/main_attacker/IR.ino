@@ -8,7 +8,7 @@ int F_IR_serial()
   if (Serial3.available() > 0) {
     IR_serial = Serial3.read() * 2;
   }
-  if (IR_serial == 0 | IR_serial == -2) {
+  if (IR_serial == -2) {
     IR_serial = 0;
   }
   return IR_serial;

@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <Wire.h>
-#include <SoftwareSerialParity.h>
+#include <SoftwareSerial.h>
 #include <Adafruit_NeoPixel.h>
 
 // 1 second = 1,000 millis = 1,000,000 micros
@@ -23,11 +23,6 @@ float ratio;
 const float power = 254.0;
 char MT_number[] = {'A', 'B', 'C', 'D'};
 int MT_speed[4];
-int MT_rotate[4];
-int pre_MT_rotate[4];
-int MT_rest[4];
-unsigned long MT_rest_time[4];
-unsigned long MT_stop_time[4];
 int kicker_value;
 
 void setup()
@@ -60,7 +55,7 @@ void loop()
     gyro_speed = F_attitude_control(gyro_degree, gyro_tilt);
     Serial.print('a');
     Serial.print(gyro_speed);
-    Serial.print(",");
+    Serial.print(", ");
 
     IR_value = F_IR_serial();
     Serial.print('i');
@@ -73,7 +68,7 @@ void loop()
     IR_another = F_go_forward(IR_value);
     Serial.print('f');
     Serial.print(IR_another);
-    Serial.print(",");
+    Serial.print(", ");
 
     line_digits = F_line_serial();
     Serial.print('l');
@@ -86,7 +81,7 @@ void loop()
     line_another = F_just_pulled(line_digits);
     Serial.print('j');
     Serial.print(line_another);
-    Serial.print(",");
+    Serial.print(", ");
 
     if (IR_digits == 1) {
       either_degree = IR_another;
@@ -105,7 +100,7 @@ void loop()
         either_degree = 0;
       }
 
-    } else {
+    } else if (IR_digits == 0) {
       if (line_degree != 0 & IR_degree != 0 | line_degree != 0 & IR_degree == 0)
       {
         either_degree = line_degree;
@@ -119,9 +114,9 @@ void loop()
         either_degree = 0;
       }
     }
-    Serial.print("e");
-    Serial.print(either_degree);
-    Serial.print(",");
+    //    Serial.print("e");
+    //    Serial.print(either_degree);
+    //    Serial.print(",");
 
     if (either_degree != 0 & gyro_speed <= -100 | either_degree != 0 & 100 <= gyro_speed)
     {
@@ -165,75 +160,15 @@ void loop()
       more = max(more, abs(MT_speed[id]));
     }
     ratio = power / more;
-    
-    for (id = 0; id <= 3; id++)
-    {
-      if (MT_speed[id] > 0)
-      {
-        MT_rotate[id] = 1;
-      }
-      else if (MT_speed[id] == 0)
-      {
-        MT_rotate[id] = 0;
-      }
-      else if (MT_speed[id] < 0)
-      {
-        MT_rotate[id] = -1;
-      }
+    MT_speed[id] = F_max_speed(ratio, MT_speed[id]);
 
-      if (MT_rotate[id] != pre_MT_rotate[id])
-      {
-        MT_rest[id] = 1;
-        MT_rest_time[id] = F_time_goal(70);
-      }
-
-      if (F_time_get() >= MT_rest_time[id] & MT_rest[id] == 1)
-      {
-        MT_rest_time[id] = 0;
-        MT_rest[id] = 2;
-        MT_stop_time[id] = F_time_goal(30);
-      }
-
-      if (F_time_get() >= MT_stop_time[id] & MT_rest[id] == 2)
-      {
-        MT_rest[id] = 0;
-        MT_stop_time[id] = 0;
-      }
-
-      MT_speed[id] = F_max_speed(ratio, MT_speed[id]);
-
+    for (id = 0; id <= 3; id++) {
       Serial.print(MT_number[id]);
-      if (MT_rest[id] == 0)
-      {
-        F_speed_send(id, MT_speed[id]);
-        Serial.print(MT_speed[id]);
-      }
-      else if (MT_rest[id] == 1)
-      {
-        F_speed_send(id, 40);
-        Serial.print("brake");
-      }
-      else if (MT_rest[id] == 2)
-      {
-        F_speed_send(id, 30);
-        Serial.print("stop");
-      }
-      else if (MT_speed[id] == 0)
-      {
-        F_speed_send(id, 30);
-        Serial.print("stop");
-      }
-      else
-      {
-        F_speed_send(id, MT_speed[id]);
-        Serial.print(MT_speed[id]);
-      }
+      Serial.print(MT_speed[id]);
       Serial.print(",");
+      F_speed_send(id, MT_speed[id]);
     }
-    //    kicker_value = F_kicker();
-    //    Serial.print('k');
-    //    Serial.print(kicker_value);
-    //    Serial.print(",");
+    F_kicker();
   }
   else
   {
@@ -243,10 +178,6 @@ void loop()
       F_speed_send(id, 40);
     }
     F_LED_turnon();
-  }
-  for (id = 0; id <= 3; id++)
-  {
-    pre_MT_rotate[id] = MT_rotate[id];
   }
   Serial.println();
 }

@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <Wire.h>
-#include <SoftwareSerialParity.h>
+#include <SoftwareSerial.h>
 #include <Adafruit_NeoPixel.h>
 
 // 1 second = 1,000 millis = 1,000,000 micros
@@ -19,12 +19,6 @@ float ratio;
 const float power = 254.0;
 char MT_number[] = {'A', 'B', 'C', 'D'};
 int MT_speed[4];
-int MT_rotate[4];
-int pre_MT_rotate[4];
-int MT_rest[4];
-unsigned long MT_rest_time[4];
-unsigned long MT_stop_time[4];
-int kicker_value;
 
 void setup()
 {
@@ -67,7 +61,7 @@ void loop()
     Serial.print('l');
     Serial.print(line_digits);
     Serial.print(",");
-    ine_degree = F_line_avoid(line_digits, IR_value);
+    line_degree = F_line_avoid(line_digits, IR_value);
     Serial.print('s');
     Serial.print(line_degree);
     Serial.print(",");
@@ -130,75 +124,15 @@ void loop()
       more = max(more, abs(MT_speed[id]));
     }
     ratio = power / more;
+    MT_speed[id] = F_max_speed(ratio, MT_speed[id]);
 
-    for (id = 0; id <= 3; id++)
-    {
-      if (MT_speed[id] > 0)
-      {
-        MT_rotate[id] = 1;
-      }
-      else if (MT_speed[id] == 0)
-      {
-        MT_rotate[id] = 0;
-      }
-      else if (MT_speed[id] < 0)
-      {
-        MT_rotate[id] = -1;
-      }
-
-      if (MT_rotate[id] != pre_MT_rotate[id])
-      {
-        MT_rest[id] = 1;
-        MT_rest_time[id] = F_time_goal(70);
-      }
-
-      if (F_time_get() >= MT_rest_time[id] & MT_rest[id] == 1)
-      {
-        MT_rest_time[id] = 0;
-        MT_rest[id] = 2;
-        MT_stop_time[id] = F_time_goal(30);
-      }
-
-      if (F_time_get() >= MT_stop_time[id] & MT_rest[id] == 2)
-      {
-        MT_rest[id] = 0;
-        MT_stop_time[id] = 0;
-      }
-
-      MT_speed[id] = F_max_speed(ratio, MT_speed[id]);
-
+    for (id = 0; id <= 3; id++) {
       Serial.print(MT_number[id]);
-      if (MT_rest[id] == 0)
-      {
-        F_speed_send(id, MT_speed[id]);
-        Serial.print(MT_speed[id]);
-      }
-      else if (MT_rest[id] == 1)
-      {
-        F_speed_send(id, 40);
-        Serial.print("brake");
-      }
-      else if (MT_rest[id] == 2)
-      {
-        F_speed_send(id, 30);
-        Serial.print("stop");
-      }
-      else if (MT_speed[id] == 0)
-      {
-        F_speed_send(id, 30);
-        Serial.print("stop");
-      }
-      else
-      {
-        F_speed_send(id, MT_speed[id]);
-        Serial.print(MT_speed[id]);
-      }
+      Serial.print(MT_speed[id]);
       Serial.print(",");
+      F_speed_send(id, MT_speed[id]);
     }
-    //    kicker_value = F_kicker();
-    //    Serial.print('k');
-    //    Serial.print(kicker_value);
-    //    Serial.print(",");
+    F_kicker();
   }
   else
   {
@@ -208,10 +142,6 @@ void loop()
       F_speed_send(id, 40);
     }
     F_LED_turnon();
-  }
-  for (id = 0; id <= 3; id++)
-  {
-    pre_MT_rotate[id] = MT_rotate[id];
   }
   Serial.println();
 }

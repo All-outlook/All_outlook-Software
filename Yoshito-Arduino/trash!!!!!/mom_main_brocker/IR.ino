@@ -3,7 +3,6 @@ const int IR_RX = 66;
 unsigned long forward_time = 0;
 unsigned long wrap_time = 0;
 
-
 int F_IR_serial()
 {
   int IR_serial;
@@ -18,18 +17,17 @@ int F_IR_serial()
 
 int F_shed_degree(int IR)
 {
-  int IR_shed;
+  int IR_shed = 0;
   if (350 <= IR & IR <= 360 | 0 < IR & IR < 10) {
-    IR_shed = 360;
+    IR_shed = 0;
   } else if (10 <= IR & IR < 170) {
-    IR_shed = 85;
+    IR_shed = 90;
   } else if (170 <= IR & IR < 190) {
     IR_shed = 0;
-
-
   } else if (190 <= IR & IR < 350) {
     IR_shed = 270;
   }
+
   return IR_shed;
 }
 
@@ -38,32 +36,46 @@ int F_go_forward(int IR) {
   int IR_value[5];
   int IR_wrap;
 
-  IR_count ++;
+  if (0 < IR) {
+    IR_count++;
+  }
 
   if (IR_count == 1) {
     IR_value[0] = IR;
   } else if (IR_count == 500) {
     IR_value[1] = IR;
     if (15 < abs(IR_value[0] - IR_value[1])) {
-    IR_count = 0;
-  }
-} else if (IR_count == 1000) {
+      IR_count = 0;
+      for (id = 0; id <= 1; id++) {
+        IR_value[id] = 0;
+      }
+    }
+  } else if (IR_count == 1000) {
     IR_value[2] = IR;
     if (15 < abs(IR_value[1] - IR_value[2])) {
-    IR_count = 0;
-  }
-} else if (IR_count == 1500) {
+      IR_count = 0;
+      for (id = 0; id <= 2; id++) {
+        IR_value[id] = 0;
+      }
+    }
+  } else if (IR_count == 1500) {
     IR_value[3] = IR;
     if (15 < abs(IR_value[2] - IR_value[3])) {
-    IR_count = 0;
-  }
-} else if (IR_count == 2000) {
+      IR_count = 0;
+      for (id = 0; id <= 3; id++) {
+        IR_value[id] = 0;
+      }
+    }
+  } else if (IR_count == 2000) {
     IR_value[4] = IR;
     if (15 < abs(IR_value[3] - IR_value[4])) {
-    IR_count = 0;
-  } else {
-    IR_digits = 1;
-    forward_time = F_time_goal(1000);
+      IR_count = 0;
+      for (id = 0; id <= 4; id++) {
+        IR_value[id] = 0;
+      }
+    } else {
+      IR_digits = 1;
+      forward_time = F_time_goal(1000);
     }
   }
 
@@ -96,6 +108,8 @@ int F_go_forward(int IR) {
   } else {
     IR_wrap = 0;
   }
-
+  Serial.print("count");
+  Serial.print(IR_digits);
+  Serial.print(",");
   return IR_wrap;
 }
