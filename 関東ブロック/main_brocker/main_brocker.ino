@@ -1,5 +1,3 @@
-#include <Arduino.h>
-#include <Wire.h>
 #include <SoftwareSerial.h>
 #include <Adafruit_NeoPixel.h>
 
@@ -78,13 +76,13 @@ void loop()
     //    Serial.print(", ");
 
     line_digits = F_LINE_get();
-    //    Serial.print('l');
-    //    Serial.print(line_digits);
-    //    Serial.print(",");
+    Serial.print('l');
+    Serial.print(line_digits);
+    Serial.print(",");
     line_degree = F_line_avoid(line_digits);
-        Serial.print('s');
-        Serial.print(line_degree);
-        Serial.print(",");
+    Serial.print('s');
+    Serial.print(line_degree);
+    Serial.print(",");
     line_another = F_just_pulled(line_digits);
     //    Serial.print('j');
     //    Serial.print(line_another);
@@ -124,7 +122,7 @@ void loop()
     //    Serial.print("e");
     //    Serial.print(either_degree);
     //    Serial.print(",");
-    
+
     int Speeeed;
     if (either_degree == 90 | either_degree == 270) {
       Speeeed = 254;
