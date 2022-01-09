@@ -160,9 +160,9 @@ void loop()
       more = max(more, abs(MT_speed[id]));
     }
     ratio = power / more;
-    MT_speed[id] = F_max_speed(ratio, MT_speed[id]);
 
     for (id = 0; id <= 3; id++) {
+      MT_speed[id] = F_max_speed(ratio, MT_speed[id]);
       Serial.print(MT_number[id]);
       Serial.print(MT_speed[id]);
       Serial.print(",");

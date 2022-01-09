@@ -25,12 +25,12 @@ void F_kicker()
   for (id = 0; id <= 5; id++)
   {
     capture_value[id] = analogRead(CAPTURE_PIN[id]);
-    /*Serial.print('d');
-      Serial.print(capture_value[id]);
-      Serial.print(",");*/
+    //    Serial.print('d');
+    //    Serial.print(capture_value[id]);
+    //    Serial.print(",");
   }
 
-  capture_digits = 0;
+  more = 0;
   for (id = 0; id <= 5; id++) {
     more = max(more, capture_value[id]);
   }
@@ -44,11 +44,10 @@ void F_kicker()
     capture_digits = 0;
   }
 
-  if (capture_digits == 1 & (F_time_get() - previousMicros) >= 10000000)
-  {
+  if (capture_digits == 1 & (F_time_get() - previousMicros) >= 5000000)
+  { //1secons
     previousMicros = F_time_get();
     kicker_time = F_time_goal(1000);
-    kicker_shoot = 1;
   }
   else
   {

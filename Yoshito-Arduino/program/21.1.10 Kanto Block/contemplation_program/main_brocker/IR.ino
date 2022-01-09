@@ -45,7 +45,7 @@ int F_go_forward(int IR) {
 
   if (IR_count == 1) {
     IR_keep[0] = IR;
-  } else if (IR_count == 250) {
+  } else if (IR_count == 750) {
     IR_keep[1] = IR;
     IR_subtract = abs(IR_keep[1] - IR_keep[0]);
     if (10 < IR_subtract) {
@@ -55,7 +55,7 @@ int F_go_forward(int IR) {
         IR_keep[id] = 0;
       }
     }
-  } else if (IR_count == 500) {
+  } else if (IR_count == 1500) {
     IR_keep[2] = IR;
     IR_subtract = abs(IR_keep[2] - IR_keep[1]);
     if (10 < IR_subtract) {
@@ -65,7 +65,7 @@ int F_go_forward(int IR) {
         IR_keep[id] = 0;
       }
     }
-  } else if (IR_count == 750) {
+  } else if (IR_count == 2250) {
     IR_keep[3] = IR;
     IR_subtract = abs(IR_keep[3] - IR_keep[2]);
     if (10 < IR_subtract) {
@@ -75,7 +75,7 @@ int F_go_forward(int IR) {
         IR_keep[id] = 0;
       }
     }
-  } else if (IR_count == 1000) {
+  } else if (IR_count == 3000) {
     IR_keep[4] = IR;
     IR_subtract = 0;
     IR_subtract = abs(IR_keep[4] - IR_keep[3]);

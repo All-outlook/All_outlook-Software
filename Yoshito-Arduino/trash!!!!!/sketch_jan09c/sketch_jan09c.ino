@@ -44,11 +44,10 @@ void loop() {
     capture_digits = 0;
   }
 
-  if (capture_digits == 1 & (F_time_get() - previousMicros) >= 10000000)
+  if (capture_digits == 1 & (F_time_get() - previousMicros) >= 5000000)
   { //1secons
     previousMicros = F_time_get();
     kicker_time = F_time_goal(1000);
-    kicker_shoot = 1;
   }
   else
   {
@@ -72,7 +71,3 @@ void loop() {
     digitalWrite(KICKER_PIN, LOW);
     digitalWrite(KICKER_INSULATION, LOW);
   }
-  Serial.print(F_time_get());
-  Serial.print(",");
-  Serial.println();
-}
