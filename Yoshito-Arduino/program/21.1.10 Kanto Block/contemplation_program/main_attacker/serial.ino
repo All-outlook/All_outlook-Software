@@ -1,69 +1,50 @@
-
 void F_serial_setup()
 {
-  Serial.begin(115200);            // micon to PC
+  Serial.begin(115200);             // micon to PC
+  Serial1.begin(38400);             //line
   Serial2.begin(38400, SERIAL_8E1); // gyro
   Serial3.begin(38400);             // IR
-  line_Serial.begin(38400, ODD);
-  MT0_Serial.begin(38400, ODD);
-  MT1_Serial.begin(38400, ODD);
-  MT2_Serial.begin(38400, ODD);
-  MT3_Serial.begin(38400, ODD);
+  MT_R_Serial.begin(38400);
+  MT_L_Serial.begin(38400);
   pinMode(IR_RX, INPUT);
-  pinMode(LINE_RX, INPUT);
-  for (id = 0; id <= 3; id++)
-  {
-    pinMode(MT_RX[id], INPUT);
-    pinMode(MT_TX[id], OUTPUT);
-  }
+  pinMode(42, INPUT);
+  pinMode(53, OUTPUT);
+  pinMode(45, INPUT);
+  pinMode(58, OUTPUT);
 }
 
-void F_speed_send(int id, int mySpeed)
-{
-  if (mySpeed > 100)
-  {
-    F_MT_UART(id, 10);
-    F_MT_UART(id, mySpeed);
-  }
-  else if (mySpeed < -100)
-  {
-    F_MT_UART(id, 20);
-    F_MT_UART(id, abs(mySpeed));
-  }
-  else if (mySpeed == 30)
-  {
-    F_MT_UART(id, 30);
-  }
-  else if (mySpeed == 40)
-  {
-    F_MT_UART(id, 40);
-  }
-}
-
-
-void F_MT_UART(int id, int knob)
-{
-  if (id == 0)
-  {
-    MT0_Serial.write(knob);
-    MT0_Serial.flush();
-  }
-  else if (id == 1)
-  {
-    MT1_Serial.write(knob);
-    MT1_Serial.flush();
-  }
-  else if (id == 2)
-  {
-    MT2_Serial.write(knob);
-    MT2_Serial.flush();
-  }
-  else if (id == 3)
-  {
-    MT3_Serial.write(knob);
-    MT3_Serial.flush();
-  }
-  else
-  {
+void F_speed_send(int id , int mySpeed) {
+  if (id == 0 || id == 1) {
+    if (mySpeed == -1) {
+      //ブレーキ 0
+      MT_R_Serial.write(0 + id);
+    } else if (mySpeed > 0) {
+      //正転 10
+      MT_R_Serial.write(10 + id);
+      MT_R_Serial.write(mySpeed);
+    } else if (mySpeed < 0) {
+      //後転 20
+      MT_R_Serial.write(20 + id);
+      MT_R_Serial.write(abs(mySpeed));
+    } else if (mySpeed == 0) {
+      //ストップ 30
+      MT_R_Serial.write(30 + id);
+    }
+  } else if (id == 2 || id == 3) {
+    if (mySpeed == -1) {
+      //ブレーキ 0
+      MT_L_Serial.write(0 + id);
+    } else if (mySpeed > 0) {
+      //正転 10
+      MT_L_Serial.write(10 + id);
+      MT_L_Serial.write(mySpeed);
+    } else if (mySpeed < 0) {
+      //後転 20
+      MT_L_Serial.write(20 + id);
+      MT_L_Serial.write(abs(mySpeed));
+    } else if (mySpeed == 0) {
+      //ストップ 30
+      MT_L_Serial.write(30 + id);
+    }
   }
 }

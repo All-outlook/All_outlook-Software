@@ -1,14 +1,10 @@
 const int KICKER_INSULATION = 62;
 const int KICKER_PIN = 11;
 const int LASER_PIN = 12;
-const int CAPTURE_PIN[] = {A7, A8};
+const int CAPTURE_PIN[] = {A7, A9, A10, A11, A12, A14};
 
-const int C_capture_threshold[] = {100, 10};
-char capture_number[] = {'A', 'B'};
-int capture_value[2];
-int capture_digits[2];
+const int C_capture_threshold = 100;
 int kicker_shoot = 0;
-int kicker_digits;
 unsigned long previousMicros = 0;
 unsigned long kicker_time = 0;
 
@@ -22,27 +18,36 @@ void F_kicker_setup()
 
 void F_kicker()
 {
-  for (id = 0; id <= 1; id++)
+  int capture_value[6];
+  int more;
+  int capture_digits;
+
+  for (id = 0; id <= 5; id++)
   {
     capture_value[id] = analogRead(CAPTURE_PIN[id]);
-    if (C_capture_threshold[id] < capture_value[id])
-    {
-      capture_digits[id] = 1;
-    }
-    else
-    {
-      capture_digits[id] = 0;
-    }
     /*Serial.print('d');
-      Serial.print(capture_number[id]);
-      Serial.print(capture_digits[id]);
+      Serial.print(capture_value[id]);
       Serial.print(",");*/
   }
 
-  if (capture_digits[0] == 0 & capture_digits[1] == 0 & F_time_get() - previousMicros >= 10000000)
+  capture_digits = 0;
+  for (id = 0; id <= 5; id++) {
+    more = max(more, capture_value[id]);
+  }
+
+  if (more <=  C_capture_threshold)
+  {
+    capture_digits = 1;
+  }
+  else
+  {
+    capture_digits = 0;
+  }
+
+  if (capture_digits == 1 & (F_time_get() - previousMicros) >= 10000000)
   {
     previousMicros = F_time_get();
-    kicker_time = F_time_goal(10);
+    kicker_time = F_time_goal(1000);
     kicker_shoot = 1;
   }
   else
@@ -61,12 +66,10 @@ void F_kicker()
   {
     digitalWrite(KICKER_INSULATION, HIGH);
     digitalWrite(KICKER_PIN, HIGH);
-    kicker_digits = 1;
   }
   else if (kicker_shoot == 0)
   {
     digitalWrite(KICKER_PIN, LOW);
     digitalWrite(KICKER_INSULATION, LOW);
-    kicker_digits = 0;
   }
 }

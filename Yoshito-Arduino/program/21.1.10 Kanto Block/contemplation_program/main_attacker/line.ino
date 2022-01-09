@@ -1,7 +1,3 @@
-const int LINE_RX = 68;
-const int LINE_TX = 49;
-SoftwareSerialParity line_Serial(LINE_RX, LINE_TX);  // rx,tx
-
 int LINESerial;
 int current_value;
 int previous_value;
@@ -16,8 +12,8 @@ int degree;
 
 int F_line_serial()
 {
-  if (line_Serial.available() > 0) {
-    current_value = line_Serial.read() * 2;
+  if (Serial1.available() > 0) {
+    current_value = Serial1.read() * 2;
   }
   if (current_value > 360) {
     current_value = 0;

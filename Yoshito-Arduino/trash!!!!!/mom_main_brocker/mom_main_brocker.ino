@@ -105,7 +105,7 @@ void loop()
         either_degree = 0;
       }
 
-    } else if(IR_digits == 0) {
+    } else if (IR_digits == 0) {
       if (line_degree != 0 & IR_degree != 0 | line_degree != 0 & IR_degree == 0)
       {
         either_degree = line_degree;
@@ -119,9 +119,9 @@ void loop()
         either_degree = 0;
       }
     }
-    Serial.print("e");
-    Serial.print(either_degree);
-    Serial.print(",");
+//    Serial.print("e");
+//    Serial.print(either_degree);
+//    Serial.print(",");
 
     if (either_degree != 0 & gyro_speed <= -100 | either_degree != 0 & 100 <= gyro_speed)
     {
@@ -165,7 +165,7 @@ void loop()
       more = max(more, abs(MT_speed[id]));
     }
     ratio = power / more;
-    
+
     for (id = 0; id <= 3; id++)
     {
       if (MT_speed[id] > 0)
@@ -230,10 +230,9 @@ void loop()
       }
       Serial.print(",");
     }
-    //    kicker_value = F_kicker();
-    //    Serial.print('k');
-    //    Serial.print(kicker_value);
-    //    Serial.print(",");
+    
+//    F_kicker();
+
   }
   else
   {

@@ -24,7 +24,6 @@ int pre_MT_rotate[4];
 int MT_rest[4];
 unsigned long MT_rest_time[4];
 unsigned long MT_stop_time[4];
-int kicker_value;
 
 void setup()
 {
@@ -195,10 +194,8 @@ void loop()
       }
       Serial.print(",");
     }
-    //    kicker_value = F_kicker();
-    //    Serial.print('k');
-    //    Serial.print(kicker_value);
-    //    Serial.print(",");
+    F_kicker();
+
   }
   else
   {
