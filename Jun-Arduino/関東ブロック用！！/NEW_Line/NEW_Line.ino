@@ -22,8 +22,8 @@ SoftwareSerial LINESerial(10, 11); //rx,tx
 
 
 void setup() {
-  Serial.begin(115200);
-  LINESerial.begin(38400);
+//  Serial.begin(115200);
+  LINESerial.begin(115200);
   pinMode(10, OUTPUT);
   F_line_setup();
 
@@ -60,7 +60,7 @@ void loop() {
 
   if (angle_time == 0) {
     if (best_value >= C_BORDER_WHITE_LINE) {
-      go_angle = 360 - (best_id * 11.25);
+      go_angle = (best_id * 11.25);
       angle_time = F_time_goal(100);
     } else {
       go_angle = 0;
