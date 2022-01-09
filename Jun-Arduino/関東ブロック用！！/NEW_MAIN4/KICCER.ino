@@ -54,7 +54,6 @@ int F_KICCER_judge() {
     catch_value = analogRead(CATCH[i]);
     best_value = max(best_value, catch_value);
   }
-  Serial.print(" Yey");
   if (best_value < 500) {
     return 1;
   } else {

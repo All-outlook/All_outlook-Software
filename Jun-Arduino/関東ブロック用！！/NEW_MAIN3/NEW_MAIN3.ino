@@ -23,10 +23,10 @@ void loop() {
   F_LINE_read();
   F_IR_read();
 
-  if (F_ESP_switch() == 3) {
+  if (F_KICCER_judge() == 1 || F_ESP_switch() == 3) {
     F_KICCER_kick();
   }
-
+ 
   if (F_ESP_switch() == 4) {
     tilt = 45;
   }
@@ -52,9 +52,8 @@ void loop() {
   F_GYRO_debug();
   F_LINE_debug();
   F_IR_debug();
+  F_KICCER_debug();
   F_MD_debug();
-
-  F_KICCER_judge();
   
   Serial.println();
 }
