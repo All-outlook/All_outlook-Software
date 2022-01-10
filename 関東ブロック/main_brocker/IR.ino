@@ -4,7 +4,6 @@ int IR_receive = 0;
 
 unsigned long IR_count = 0;
 unsigned long forward_time = 0;
-unsigned long wrap_time = 0;
 int IR_keep[] = {0, 0, 0, 0, 0};
 
 void F_IR_setup() {
@@ -20,7 +19,7 @@ void F_IR_read() {
   }
 }
 
-int F_IR_get(){
+int F_IR_get() {
   return IR_receive;
 }
 
@@ -94,39 +93,23 @@ int F_go_forward(int IR) {
       }
     } else {
       IR_digits = 1;
-      forward_time = F_time_goal(1000);
+      forward_time = F_time_goal(1600);
     }
   }
 
-  if (F_time_get() >= forward_time & IR_digits == 1) {
+  if ((F_time_get() >= forward_time & IR_digits == 1) | kicker_value == 1) {
     forward_time = 0;
-    IR_digits = 2;
-    wrap_time = F_time_goal(20000);
-  }
-
-  if (F_time_get() >= wrap_time & IR_digits == 2) {
     IR_subtract = 0;
     IR_digits = 0;
-    wrap_time = 0;
     IR_count = 0;
   }
-
+  
   if (IR_digits == 1) {
-    if (0 < IR & IR < 90 | 270 <= IR & IR <= 360) {
+    if (270 <= IR & IR <= 360 | 0 < IR & IR < 90) {
       IR_wrap = IR;
     } else {
-      IR_wrap = 360;
+      IR_wrap = 0;
     }
-  } else if (IR_digits == 2) {
-    if (350 <= IR & IR <= 360 | 0 < IR & IR < 10) {
-      IR_wrap = 360;
-    } else if (10 <= IR & IR < 180) {
-      IR_wrap = IR + 35;
-    } else if (180 <= IR & IR < 350) {
-      IR_wrap = IR - 35;
-    }
-  } else {
-    IR_wrap = 0;
   }
-  return IR_wrap;
-}
+    return IR_wrap;
+  }

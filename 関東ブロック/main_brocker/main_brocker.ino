@@ -9,19 +9,18 @@ int gyro_speed;
 int gyro_tilt;
 int IR_degree;
 int IR_value;
-int IR_digits;
 int IR_another;
 int line_digits;
 int line_degree;
 int line_another;
 int either_degree;
-int either_speed[4];
 int more;
 float ratio;
 const float power = 254.0;
-char MT_number[] = {'A', 'B', 'C', 'D'};
 int MT_speed[4];
 int kicker_value;
+int IR_digits;
+int false_digits = 0;
 
 void setup()
 {
@@ -83,27 +82,13 @@ void loop()
     Serial.print('s');
     Serial.print(line_degree);
     Serial.print(",");
-    line_another = F_just_pulled(line_digits);
+    //line_another = F_just_pulled(line_digits);
     //    Serial.print('j');
     //    Serial.print(line_another);
     //    Serial.print(", ");
 
     if (IR_digits == 1) {
       either_degree = IR_another;
-
-    } else if (IR_digits == 2) {
-      if (line_another != 0 & IR_another != 0 | line_another != 0 & IR_another == 0)
-      {
-        either_degree = line_another;
-      }
-      else if (line_another == 0 & IR_another != 0)
-      {
-        either_degree = IR_another;
-      }
-      else if (line_another == 0 & IR_another == 0)
-      {
-        either_degree = 0;
-      }
 
     } else if (IR_digits == 0) {
       if (line_degree != 0 & IR_degree != 0 | line_degree != 0 & IR_degree == 0)
@@ -124,10 +109,12 @@ void loop()
     //    Serial.print(",");
 
     int Speeeed;
-    if (either_degree == 90 | either_degree == 270) {
+    if (either_degree == 90 | either_degree == 270 | IR_digits == 1) {
+      Speeeed = 254;
+    } else if (false_digits == 2) {
       Speeeed = 254;
     } else {
-      Speeeed = 150;
+      Speeeed = 254;
     }
     F_MD_rotate(either_degree, gyro_degree, Speeeed);
 
@@ -136,10 +123,8 @@ void loop()
   else
   {
     Serial.print("OFF");
-    for (id = 0; id <= 3; id++);
-    {
-      F_speed_send(id, 0);
-    }
+    F_MD_rotate(0, gyro_degree, 0);
+    
     F_LED_turnon();
   }
   Serial.println();

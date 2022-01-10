@@ -6,10 +6,10 @@
 //#define Accel_Z 4732
 
 // Yoshito
-#define Gyro_X 30
-#define Gyro_Y 10
-#define Gyro_Z -96
-#define Accel_Z 4944
+#define Gyro_X 29
+#define Gyro_Y 9
+#define Gyro_Z -93
+#define Accel_Z 4940
 
 
 MPU6050 mpu;
