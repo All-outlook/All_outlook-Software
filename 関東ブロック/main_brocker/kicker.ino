@@ -44,7 +44,7 @@ void F_kicker()
     capture_digits = 0;
   }
 
-  if (capture_digits == 1 & (F_time_get() - previousMicros) >= 500000)
+  if (capture_digits == 1 & (F_time_get() - previousMicros) >= 1000000)
   { //1secons
     previousMicros = F_time_get();
     kicker_time = F_time_goal(300);
@@ -65,10 +65,12 @@ void F_kicker()
   {
     digitalWrite(KICKER_INSULATION, HIGH);
     digitalWrite(KICKER_PIN, HIGH);
+    kicker_value = 1;
   }
   else if (kicker_shoot == 0)
   {
     digitalWrite(KICKER_PIN, LOW);
     digitalWrite(KICKER_INSULATION, LOW);
+    kicker_value = 2;
   }
 }
