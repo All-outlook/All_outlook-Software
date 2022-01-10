@@ -11,6 +11,9 @@ void F_LINE_read() {
   }
   if (Serial1.available() > 0) {
     LINE_receive = Serial1.read() * 2;
+    if(LINE_receive > 0){
+      LINE_receive = F_360_correct(180 + LINE_receive);
+    }
   }
 }
 

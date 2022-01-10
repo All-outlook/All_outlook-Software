@@ -11,7 +11,7 @@ const int M_LED_B[] = {16, 17};
 const int LED[] = {2, 3, 4};
 
 void setup() {
-  Serial.begin(115200);
+//  Serial.begin(115200);
   mySerial.begin(57600);
   pinMode(8, INPUT);
 
@@ -36,26 +36,33 @@ int myspeed = 40;
 void loop() {
   //  F_time_read();
   if (mySerial.available()) {
-    int knob = mySerial.read();
-    Serial.print(knob);
+    for ( int nnn = 0; nnn < 2; nnn++) {
+      int knob = mySerial.read();
+//      Serial.print(' ');
+//      Serial.print(knob);
 
-    if (knob < 35) {
-      id = knob % 10;
-      rotation = knob / 10;
-
-      pre_rotation = rotation;
-
-      Serial.print(" id ");
-      Serial.print(id);
-      Serial.print(" rotation");
-      Serial.print(rotation);
-    } else {
-      myspeed = knob;
-      Serial.print(" speed");
-      Serial.print(myspeed);
+      if (knob < 35) {
+        id = knob % 10;
+        rotation = knob / 10;
+        if (rotation == 0 || rotation == 3) {
+          nnn++;
+        }
+        pre_rotation = rotation;
+      } else {
+        myspeed = knob;
+        nnn++;
+      }
     }
-    Serial.println();
   }
+//  Serial.println();
+//  Serial.print("------ id");
+//  Serial.print(id);
+//  Serial.print(" rotation");
+//  Serial.print(rotation);
+//
+//  Serial.print(" speed");
+//  Serial.println(myspeed);
+
   //rotationの急速切り替えを防ぐ----------------
   if ((rotation == 1 && pre_rotation == 2) || (rotation == 2 && pre_rotation == 1)) {
     rotation = 3;
@@ -63,6 +70,8 @@ void loop() {
   // ------------------------------------------ -
 
   if (id == 0 || id == 2) {
+    //D5,D6(Timer0のためデューティー比高め)
+    myspeed = map(myspeed,40,254,35,244);
     //------------------------------------
     if (rotation == 0) {
       digitalWrite(MOTOR_A[0], LOW);
@@ -99,6 +108,7 @@ void loop() {
     }
     //------------------------------------
   } else if (id ==  1 || id == 3) {
+    myspeed = map(myspeed,40,254,45,254);
     if (rotation == 0) {
       digitalWrite(MOTOR_B[0], LOW);
       digitalWrite(MOTOR_B[1], LOW);

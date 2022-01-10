@@ -26,17 +26,21 @@ void loop() {
   F_IR_read();
 
   if (digitalRead(41) == 0) {
-    if (F_KICCER_judge() == 1) {
+    if (F_KICCER_judge_V2() == 1) {
       F_KICCER_kick();
     }
 
     int GYRO_DEGDEG = F_360_correct(F_GYRO_get() - tilt);
     int GO_DEGDEG;
-    if (F_LINE_get() != 0) {
+    int SPEED_PEDPED;
+    if (F_LINE_get() > 0) {
+      Serial.print('_');
       GO_DEGDEG = F_360_correct(F_LINE_get() + F_GYRO_get());
+      SPEED_PEDPED = 130;
     } else {
       Serial.print('*');
       GO_DEGDEG = F_IR_wrap_around(F_360_correct(F_IR_get() + F_GYRO_get()));
+      SPEED_PEDPED = 150;
     }
 
     Serial.print(' ');
@@ -49,13 +53,13 @@ void loop() {
     }
 
     
-    F_MD_rotate(GO_DEGDEG, GYRO_DEGDEG, 254);
+    F_MD_rotate(GO_DEGDEG, GYRO_DEGDEG, SPEED_PEDPED);
 
 
 
   } else {
 
-    if (F_KICCER_judge() == 1 || F_ESP_switch() == 3) {
+    if (F_KICCER_judge_V2() == 1 || F_ESP_switch() == 3) {
       F_KICCER_kick();
     }
     if (F_ESP_switch() == 4) {
