@@ -45,7 +45,7 @@ int F_IR_mawarikomi(int IR) {
   } else if ((20 <= IR && IR <= 25) ) {
     result = 45;
   } else if ((25 <= IR && IR <= 70) ) {
-    result = IR + 80;
+    result = IR + 70;
 
   } else if (70 <= IR && IR <= 180) {
     result = IR + C_IR_length ;
@@ -54,7 +54,7 @@ int F_IR_mawarikomi(int IR) {
     result = IR - C_IR_length;
 
   } else if ((290 <= IR && IR <= 335) ) {
-    result = IR - 80;
+    result = IR - 70;
   
   } else if ( 335 <= IR && IR <= 340 ) {
     result = 315;

@@ -81,7 +81,8 @@ void loop() {
       GO_DEGDEG = 0;
     }
 
-    F_MD_rotate(GO_DEGDEG, GYRO_DEGDEG, map(F_ESP_speed(), 0, 100, 40, 254));
+//    F_MD_rotate(GO_DEGDEG, GYRO_DEGDEG, map(F_ESP_speed(), 0, 100, 40, 254));
+    F_MD_rotate(GO_DEGDEG, GYRO_DEGDEG, 0);
   }
 
 
@@ -89,6 +90,7 @@ void loop() {
   F_LINE_debug();
   F_IR_debug();
   F_KICCER_debug();
+  
   F_MD_debug();
 
   Serial.println();

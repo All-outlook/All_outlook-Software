@@ -1,15 +1,14 @@
 //#include <SPI.h>
 #include <SoftwareSerial.h>
 
-#define C_BORDER_WHITE_LINE 450
+#define C_BORDER_WHITE_LINE 150
 //スーパーチーム70
 //練習コート 250
 //試合コート 300
 //パドックコート 500
 
 const int A_PIN = 2;
-const int B_PIN = 3;
-const int C_PIN = 4;
+const int B_PIN = 3;const int C_PIN = 4;
 const int LED_PIN = 5;
 const int LED_NUM = 32;
 const int READ_PIN[] = {A0, A1, A2, A3};
@@ -61,7 +60,7 @@ void loop() {
   if (angle_time == 0) {
     if (best_value >= C_BORDER_WHITE_LINE) {
       go_angle = (best_id * 11.25);
-      angle_time = F_time_goal(100);
+      angle_time = F_time_goal(200);
     } else {
       go_angle = 0;
     }

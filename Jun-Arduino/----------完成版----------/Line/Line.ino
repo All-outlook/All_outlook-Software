@@ -1,7 +1,7 @@
 //#include <SPI.h>
 #include <SoftwareSerial.h>
 
-#define C_BORDER_WHITE_LINE 700
+#define C_BORDER_WHITE_LINE 200
 //スーパーチーム70
 //練習コート 250
 //試合コート 300

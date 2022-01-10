@@ -26,7 +26,7 @@ void F_KICCER_SETUP() {
 void F_KICCER_kick() {
   //キックしたいときに呼び出す
   if (kick_time == 0) {
-    kick_time = F_time_goal(100);
+    kick_time = F_time_goal(10);
     kick_rest_time = F_time_goal(1500);
   }
   if (kick_rest_time < F_time_get()) {
