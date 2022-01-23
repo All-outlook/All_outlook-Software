@@ -1,5 +1,3 @@
-#include <Arduino.h>
-#include <Wire.h>
 #include <SoftwareSerial.h>
 #include <Adafruit_NeoPixel.h>
 
@@ -22,12 +20,13 @@ int MT_speed[4];
 
 void setup()
 {
+  Serial.begin(115200);
   F_switch_setup();
-  F_LED_setuo();
+  F_LED_setup();
+  F_MD_setup();
   F_IR_setup();
   F_GYRO_setup();
   F_LINE_setup();
-  F_serial_setup();
   F_flame_setup();
   F_kicker_setup();
   F_reset_setup();
@@ -46,22 +45,18 @@ void loop()
     F_LED_turnon() ;
 
     gyro_degree = F_GYRO_get();
-    Serial.print('g');
-    Serial.print(gyro_degree);
-    Serial.print(",");
-    gyro_speed = F_attitude_control(gyro_degree);
-    Serial.print('a');
-    Serial.print(gyro_speed);
-    Serial.print(",");
+    //    Serial.print('g');
+    //    Serial.print(gyro_degree);
+    //    Serial.print(",");
 
     IR_value = F_IR_get();
-    Serial.print('i');
-    Serial.print(IR_value);
-    Serial.print(",");
+//    Serial.print('i');
+//    Serial.print(IR_value);
+//    Serial.print(",");
     IR_degree = F_wrap_degree(IR_value);
-    Serial.print('w');
-    Serial.print(IR_degree);
-    Serial.print(",");
+//    Serial.print('w');
+//    Serial.print(IR_degree);
+//    Serial.print(",");
 
     line_digits = F_LINE_get();
     Serial.print('l');
@@ -84,70 +79,19 @@ void loop()
     {
       either_degree = 0;
     }
-    Serial.print("e");
-    Serial.print(either_degree);
-    Serial.print(",");
+//    Serial.print("e");
+//    Serial.print(either_degree);
+//    Serial.print(",");
 
-    if (either_degree != 0 & gyro_speed <= -100 | either_degree != 0 & 100 <= gyro_speed)
-    {
-      for (id = 0; id <= 3; id++)
-      {
-        either_speed[id] = F_MT_Il_speed(id, either_degree);
-      }
-      for (id = 0; id <= 3; id++)
-      {
-        MT_speed[id] = (either_speed[id] * 0.7) + (gyro_speed * 0.3);
-      }
-    }
-    else if (either_degree != 0 & -100 < gyro_speed & gyro_speed < 100)
-    {
-      for (id = 0; id <= 3; id++)
-      {
-        either_speed[id] = F_MT_Il_speed(id, either_degree);
-      }
-      for (id = 0; id <= 3; id++)
-      {
-        MT_speed[id] = either_speed[id];
-      }
-    }
-    else if (either_degree == 0 & gyro_speed <= -100 | either_degree == 0 & 100 <= gyro_speed)
-    {
-      for (id = 0; id <= 3; id++)
-      {
-        MT_speed[id] = gyro_speed;
-      }
-    }
-    else if (either_degree == 0 & -100 < gyro_speed & gyro_speed < 100)
-    {
-      for (id = 0; id <= 3; id++)
-      {
-        MT_speed[id] = 0;
-      }
-    }
-
-    more = 0;
-    for (id = 0; id <= 3; id++) {
-      more = max(more, abs(MT_speed[id]));
-    }
-    ratio = power / more;
-    for (id = 0; id <= 3; id++) {
-      MT_speed[id] = F_max_speed(ratio, MT_speed[id]);
-
-      Serial.print(MT_number[id]);
-      Serial.print(MT_speed[id]);
-      Serial.print(",");
-      F_speed_send(id, MT_speed[id]);
-    }
+   F_MD_rotate(either_degree, gyro_degree, 254);
 
     F_kicker();
   }
   else
   {
     Serial.print("OFF");
-    for (id = 0; id <= 3; id++);
-    {
-      F_speed_send(id, 40);
-    }
+    F_MD_rotate(0, gyro_degree, 0);
+    
     F_LED_turnon();
   }
   Serial.println();

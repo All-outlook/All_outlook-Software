@@ -37,7 +37,7 @@ int F_line_avoid(int line)
   } else if (58 <= line & line < 113) { //90
     line_degree = 30;
 
-  }  else if (113 <= line & line < 158) {
+  } else if (113 <= line & line < 158) {
     line_degree = 0;
 
   } else if (158 <= line & line < 203) {
@@ -46,7 +46,7 @@ int F_line_avoid(int line)
   } else if (203 <= line & line < 258) {
     line_degree = 0;
 
-  }  else if (258 <= line & line < 303) {//270
+  } else if (258 <= line & line < 303) {//270
     line_degree = 330;
 
   } else if (303 <= line & line < 338) {
@@ -58,13 +58,13 @@ int F_line_avoid(int line)
 
   if (previous_degree == 360 & line_degree == 180) {
     false_degree = 360;
-    false_digits = 2;
+    false_number = 2;
     line_time = F_time_goal(1500);
   }
 
-  if ((line_degree == 0 & false_digits == 2) | (F_time_get() >= line_time & false_digits == 2)) {
+  if ((line_degree == 0 & false_number == 2) | (F_time_get() >= line_time & false_number == 2)) {
     line_time = 0;
-    false_digits = 0;
+    false_number = 0;
     false_degree = 0;
   }
 
@@ -77,24 +77,24 @@ int F_line_avoid(int line)
 
   if (thr_count == 100) {
     false_degree = 270;
-    false_digits = 1;
+    false_number = 1;
     line_time = F_time_goal(1300);
   } else if (hun_count == 100) {
     false_degree = 90;
-    false_digits = 1;
+    false_number = 1;
     line_time = F_time_goal(1300);
   }
 
-  if (F_time_get() >= line_time & false_digits == 1)
+  if (F_time_get() >= line_time & false_number == 1)
   {
     line_time = 0;
     false_degree = 0;
-    false_digits = 0;
+    false_number = 0;
     hun_count = 0;
     thr_count = 0;
   }
-  
-  if (false_digits == 1 | false_digits == 2) {
+
+  if (false_number == 1 | false_number == 2) {
     degree = false_degree;
   } else {
     degree = line_degree;
@@ -102,15 +102,4 @@ int F_line_avoid(int line)
 
   previous_degree = line_degree;
   return degree;
-}
-
-int F_just_pulled(int line) {
-  int line_value;
-  line_value = line + 180; //in the court
-  if (line == 0) {
-    line_value = 0;
-  } else if (line_value > 360) {
-    line_value -= 360;
-  }
-  return line_value;
 }

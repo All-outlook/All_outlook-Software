@@ -10,17 +10,16 @@ int gyro_tilt;
 int IR_degree;
 int IR_value;
 int IR_another;
-int line_digits;
+int line_number;
 int line_degree;
 int line_another;
 int either_degree;
 int more;
 float ratio;
-const float power = 254.0;
 int MT_speed[4];
 int kicker_value;
-int IR_digits;
-int false_digits = 0;
+int IR_number;
+int false_number = 0;
 
 void setup()
 {
@@ -52,14 +51,6 @@ void loop()
     //    Serial.print('g');
     //    Serial.print(gyro_degree);
     //    Serial.print(",");
-    //    gyro_tilt = F_gyro_tilt(gyro_degree, line_digits);
-    //    Serial.print('t');
-    //    Serial.print(gyro_tilt);
-    //    Serial.print(",");
-    //    gyro_speed = F_attitude_control(gyro_degree, gyro_tilt);
-    //    Serial.print('a');
-    //    Serial.print(gyro_speed);
-    //    Serial.print(", ");
 
     IR_value = F_IR_get();
     //    Serial.print('i');
@@ -74,23 +65,19 @@ void loop()
     //    Serial.print(IR_another);
     //    Serial.print(", ");
 
-    line_digits = F_LINE_get();
+    line_number = F_LINE_get();
     Serial.print('l');
-    Serial.print(line_digits);
+    Serial.print(line_number);
     Serial.print(",");
-    line_degree = F_line_avoid(line_digits);
+    line_degree = F_line_avoid(line_number);
     Serial.print('s');
     Serial.print(line_degree);
     Serial.print(",");
-    //line_another = F_just_pulled(line_digits);
-    //    Serial.print('j');
-    //    Serial.print(line_another);
-    //    Serial.print(", ");
 
-    if (IR_digits == 1) {
+    if (IR_number == 1) {
       either_degree = IR_another;
 
-    } else if (IR_digits == 0) {
+    } else if (IR_number == 0) {
       if (line_degree != 0 & IR_degree != 0 | line_degree != 0 & IR_degree == 0)
       {
         either_degree = line_degree;
@@ -108,15 +95,7 @@ void loop()
     //    Serial.print(either_degree);
     //    Serial.print(",");
 
-    int Speeeed;
-    if (either_degree == 90 | either_degree == 270 | IR_digits == 1) {
-      Speeeed = 254;
-    } else if (false_digits == 2) {
-      Speeeed = 254;
-    } else {
-      Speeeed = 254;
-    }
-    F_MD_rotate(either_degree, gyro_degree, Speeeed);
+    F_MD_rotate(either_degree, gyro_degree, 254);
 
     F_kicker();
   }

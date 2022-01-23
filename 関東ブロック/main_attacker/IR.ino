@@ -6,7 +6,7 @@ int IR_serial;
 int IR_wrap;
 
 void F_IR_setup() {
-  Serial3.begin(38400);
+  Serial3.begin(115200);
 }
 
 void F_IR_read() {

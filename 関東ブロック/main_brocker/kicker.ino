@@ -20,7 +20,7 @@ void F_kicker()
 {
   int capture_value[6];
   int more;
-  int capture_digits;
+  int capture_number;
 
   for (id = 0; id <= 5; id++)
   {
@@ -37,14 +37,14 @@ void F_kicker()
 
   if (more <=  C_capture_threshold)
   {
-    capture_digits = 1;
+    capture_number = 1;
   }
   else
   {
-    capture_digits = 0;
+    capture_number = 0;
   }
 
-  if (capture_digits == 1 & (F_time_get() - previousMicros) >= 1000000)
+  if (capture_number == 1 & (F_time_get() - previousMicros) >= 1000000)
   { //1secons
     previousMicros = F_time_get();
     kicker_time = F_time_goal(300);
