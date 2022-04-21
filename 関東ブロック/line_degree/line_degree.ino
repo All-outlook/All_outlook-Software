@@ -40,10 +40,10 @@ void loop() {
   }
   line_value[28] = 0; //This is incompetence!!!!
 
-//    for (id = 0; id <= 31; id++) { //Please comment here as well.
-//      Serial.print(line_value[id]);
-//      Serial.print(",");
-//    } //Please comment here as well.
+  //    for (id = 0; id <= 31; id++) { //Please comment here as well.
+  //      Serial.print(line_value[id]);
+  //      Serial.print(",");
+  //    } //Please comment here as well.
 
   for (id = 0; id <= 31; id++) {
     if (line_value[id] >= C_line_threshold) {

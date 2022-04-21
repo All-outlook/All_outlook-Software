@@ -4,7 +4,7 @@ BluetoothSerial SerialBT;
 
 void setup() {
   Serial.begin(38400);
-  SerialBT.begin("ESP32_Controller123");
+  SerialBT.begin("ESP32_NEW_MURASAKI");
 
   pinMode(33, OUTPUT);
 

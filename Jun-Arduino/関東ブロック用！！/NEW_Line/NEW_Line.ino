@@ -1,7 +1,7 @@
 //#include <SPI.h>
 #include <SoftwareSerial.h>
 
-#define C_BORDER_WHITE_LINE 150
+#define C_BORDER_WHITE_LINE 700
 //スーパーチーム70
 //練習コート 250
 //試合コート 300
@@ -23,6 +23,7 @@ SoftwareSerial LINESerial(10, 11); //rx,tx
 void setup() {
 //  Serial.begin(115200);
   LINESerial.begin(115200);
+//  Serial.println("hello);
   pinMode(10, OUTPUT);
   F_line_setup();
 

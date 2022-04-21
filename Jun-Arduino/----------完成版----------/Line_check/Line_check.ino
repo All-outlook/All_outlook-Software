@@ -42,8 +42,10 @@ void loop() {
 
 //  Serial.print("Moto_value       : ");
   for (int id = 0; id <= 31; id++) {
-    Serial.print(line_value[id]);
+    Serial.print(id);
     Serial.print(":");
+    Serial.print(line_value[id]);
+    Serial.print(" ");
   }
   Serial.println();
 

@@ -4,7 +4,7 @@ BluetoothSerial SerialBT;
 
 void setup() {
   Serial.begin(115200);
-  SerialBT.begin("ESP32_Jun_robot");
+  SerialBT.begin("ESP32_NEW_MURSAKI");
   //デバイス名は"ESP32"としました。サンプルスケッチではESP32testとなっています。
 
   Serial.println("The device started, now you can pair it with bluetooth!");

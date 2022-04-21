@@ -1,4 +1,4 @@
-void F_AMP_setup(){
+void F_AMP_setup() {
   for (id = 0; id <= 3; id++) {
     pinMode(AMP_PIN[id], INPUT);
     pinMode(AMP_PIN[id], LOW);

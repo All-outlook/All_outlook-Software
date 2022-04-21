@@ -5,11 +5,17 @@
 //#define Gyro_Z 27
 //#define Accel_Z 4732
 
-// Yoshito
-#define Gyro_X 29
-#define Gyro_Y 9
-#define Gyro_Z -93
-#define Accel_Z 4940
+//NEW_murasaki
+#define Gyro_X 156
+#define Gyro_Y 70
+#define Gyro_Z 33
+#define Accel_Z 4680
+
+//// Yoshito
+//#define Gyro_X 29
+//#define Gyro_Y 9
+//#define Gyro_Z -93
+//#define Accel_Z 4940
 
 
 MPU6050 mpu;
