@@ -81,7 +81,7 @@ void F_buzzer_one() {
 }
 
 void F_buzzer_two() {
-  for (id = 0; id <= 2; id++) {
+  for (int id = 0; id <= 2; id++) {
     tone(35, Si2, 100);
     delay(50);
     tone(35, Mi3, 250);
@@ -90,7 +90,7 @@ void F_buzzer_two() {
   delay(200);
 
   while(repetition <= 2){
-    for (id = 0; id < 6; id++) {
+    for (int id = 0; id < 6; id++) {
       tone(35, oneup[id], 100);
       delay(135);
     }
@@ -100,14 +100,14 @@ void F_buzzer_two() {
 }
 
 void F_buzzer_three() {
-  for (id = 0; id < 32; id++) {
+  for (int id = 0; id < 32; id++) {
     tone(35, star[id], 100);
     delay(100);
   }
 }
 
 void F_buzzer_four() {
-  for (id = 0; id < 13; id++) {
+  for (int id = 0; id < 13; id++) {
     tone(35, mario[id], 50);
     delay(140);
   }
